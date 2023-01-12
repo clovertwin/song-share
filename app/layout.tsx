@@ -1,18 +1,19 @@
-import "../styles/globals.css";
+import AuthContext from "./AuthContext";
 import { Inter } from "@next/font/google";
+import "../styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
-  children,
-}: {
+export interface AccountLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: AccountLayoutProps) {
   return (
     <html lang="en" className={inter.className}>
-      <body>{children}</body>
+      <AuthContext>
+        <body>{children}</body>
+      </AuthContext>
     </html>
   );
 }
