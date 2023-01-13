@@ -4,11 +4,11 @@ import "../styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export interface AccountLayoutProps {
+export interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-export default function RootLayout({ children }: AccountLayoutProps) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={inter.className}>
       <AuthContext>

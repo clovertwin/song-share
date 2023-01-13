@@ -1,5 +1,14 @@
 import SpotifyWebApi from "spotify-web-api-node";
 
+/**
+ * user-read-email: Read access to user’s email address.
+ *
+ * user-read-private: Read access to user’s subscription details (type of user account).
+ *
+ * streaming: Control playback of a Spotify track. This scope is currently available
+ * to the Web Playback SDK. The user must have a Spotify Premium account.
+ */
+
 const scopes = ["user-read-email", "user-read-private", "streaming"].join(",");
 
 const params = {
