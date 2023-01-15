@@ -6,7 +6,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        spotifyPrimary: "#1DB954",
+      },
+    },
   },
   plugins: [],
 };
