@@ -1,5 +1,6 @@
 import { getProviders } from "next-auth/react";
 import { Button } from "../../components/Button";
+import { unstable_getServerSession } from "next-auth/next";
 
 async function getData() {
   const providers = await getProviders();
@@ -9,7 +10,9 @@ async function getData() {
 }
 
 export default async function Login() {
-  const data = await getData();
-  console.log(data);
-  return <Button data={data} />;
+  const responseProvider = await getData();
+  const session = await unstable_getServerSession();
+  console.log(responseProvider);
+  console.log(session);
+  return <Button responseProvider={responseProvider} />;
 }
