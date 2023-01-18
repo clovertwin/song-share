@@ -8,10 +8,7 @@ export default function Home() {
     <main className="text-lg text-center">
       <h1 className="pb-14 text-3xl">
         Welcome to SongShare
-        {status === "authenticated"
-          ? ` ${session?.user?.name?.split(" ")[0]}`
-          : null}
-        !
+        {status === "authenticated" ? ` ${session.user.userName}` : null}!
       </h1>
       {status === "authenticated" ? (
         <button
