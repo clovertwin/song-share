@@ -1,5 +1,5 @@
 import { getProviders } from "next-auth/react";
-import { Button } from "../../components/Button";
+import { Button } from "./Button";
 import { unstable_getServerSession } from "next-auth/next";
 
 async function getData() {
