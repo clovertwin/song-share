@@ -1,26 +1,21 @@
 "use client";
-import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Home() {
   const { data: session, status } = useSession();
+  console.log(session);
   return (
     <main className="text-lg text-center">
-      <h1 className="pb-14 text-3xl">
-        Welcome to SongShare
-        {status === "authenticated" ? ` ${session.user.userName}` : null}!
-      </h1>
-      {status === "authenticated" ? (
-        <button
-          className="bg-slate-500 py-1 px-8 text-neutral-100 hover:bg-spotifyPrimary"
-          onClick={() => signOut()}
-        >
-          Logout
-        </button>
-      ) : (
-        <Link className="underline underline-offset-3" href="/login">
-          click here to login
-        </Link>
+      {status === "authenticated" && (
+        <div>
+          <h1 className="pb-14 text-3xl">{`Welcome ${session?.user.userName}`}</h1>
+          <button
+            onClick={() => signOut()}
+            className="px-10 py-2 bg-slate-500 text-neutral-100 hover:bg-spotifyPrimary"
+          >
+            Logout
+          </button>
+        </div>
       )}
     </main>
   );

@@ -12,7 +12,5 @@ async function getData() {
 export default async function Login() {
   const responseProvider = await getData();
   const session = await unstable_getServerSession();
-  console.log(responseProvider);
-  console.log(session);
   return <Button responseProvider={responseProvider} />;
 }
