@@ -12,7 +12,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={inter.className}>
       <AuthContext>
-        <body className="h-screen flex justify-center items-center bg-neutral-200 crt relative">
+        <body className="h-screen flex justify-center items-center bg-neutral-300 crt relative">
           {children}
         </body>
       </AuthContext>

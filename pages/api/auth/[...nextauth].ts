@@ -52,7 +52,6 @@ export default NextAuth({
           userName: account.providerAccountId,
           accessTokenExpires: account.expires_at! * 1000,
         };
-        console.log("JTW CALLBACK TOKEN: ", example);
         return {
           ...token,
           accessToken: account.access_token,
