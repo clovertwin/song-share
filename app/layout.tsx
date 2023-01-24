@@ -8,13 +8,16 @@ export interface RootLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * To use "crt" effect add this to the body tag
+ * className="crt relative"
+ */
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={inter.className}>
       <AuthContext>
-        <body className="h-screen flex justify-center items-center bg-neutral-300 crt relative">
-          {children}
-        </body>
+        <body>{children}</body>
       </AuthContext>
     </html>
   );

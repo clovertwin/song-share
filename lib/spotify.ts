@@ -9,7 +9,19 @@ import SpotifyWebApi from "spotify-web-api-node";
  * to the Web Playback SDK. The user must have a Spotify Premium account.
  */
 
-const scopes = ["user-read-email", "user-read-private", "streaming"].join(",");
+const scopes = [
+  "user-read-email",
+  "user-read-private",
+  "user-read-colaborative",
+  "streaming",
+  "user-library-read",
+  "user-top-read",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "user-read-recently-played",
+  "user-follow-read",
+].join(",");
 
 const params = {
   scope: scopes,

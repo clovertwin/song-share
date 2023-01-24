@@ -1,22 +1,16 @@
 "use client";
 import { useSession, signOut } from "next-auth/react";
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   const { data: session, status } = useSession();
-  console.log(session);
   return (
-    <main className="text-lg text-center">
-      {status === "authenticated" && (
-        <div>
-          <h1 className="pb-14 text-3xl">{`Welcome ${session?.user.userName}`}</h1>
-          <button
-            onClick={() => signOut()}
-            className="px-10 py-2 bg-slate-500 text-neutral-100 hover:bg-spotifyPrimary"
-          >
-            Logout
-          </button>
-        </div>
-      )}
-    </main>
+    <div className="bg-black h-screen overflow-hidden">
+      <main className="">
+        <Sidebar />
+        {/* center content */}
+      </main>
+      <div>{/* song player */}</div>
+    </div>
   );
 }

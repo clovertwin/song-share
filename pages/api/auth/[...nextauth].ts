@@ -45,13 +45,7 @@ export default NextAuth({
     async jwt({ token, user, account }) {
       // Initial sign in
       if (account && user) {
-        const example = {
-          ...token,
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
-          userName: account.providerAccountId,
-          accessTokenExpires: account.expires_at! * 1000,
-        };
+        console.log("IF ACCOUNT AND USER...");
         return {
           ...token,
           accessToken: account.access_token,
