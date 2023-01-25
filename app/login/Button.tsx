@@ -3,18 +3,18 @@ import { signIn, ClientSafeProvider, LiteralUnion } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 
 interface ButtonProps {
-  responseProvider:
+  provider:
     | Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
     | undefined;
 }
 
-export const Button = ({ responseProvider }: ButtonProps) => {
+export const Button = ({ provider }: ButtonProps) => {
   return (
     <button
-      onClick={() => signIn(responseProvider?.spotify.id, { callbackUrl: "/" })}
-      className="px-14 py-4 bg-slate-500 text-neutral-50 hover:bg-spotifyPrimary"
+      onClick={() => signIn(provider?.spotify.id, { callbackUrl: "/" })}
+      className="text-lg text-gray-500 hover:text-spotifyPrimary"
     >
-      Login with {responseProvider?.spotify.name}
+      Login with {provider?.spotify.name} account
     </button>
   );
 };

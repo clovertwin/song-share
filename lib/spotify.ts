@@ -12,7 +12,7 @@ import SpotifyWebApi from "spotify-web-api-node";
 const scopes = [
   "user-read-email",
   "user-read-private",
-  "user-read-colaborative",
+  "playlist-read-collaborative",
   "streaming",
   "user-library-read",
   "user-top-read",

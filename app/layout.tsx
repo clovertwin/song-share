@@ -5,7 +5,7 @@ import "../styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export interface RootLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode | React.ReactNode[];
 }
 
 /**
