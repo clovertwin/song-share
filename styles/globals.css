@@ -193,3 +193,18 @@
     animation: textShadow 1.6s infinite;
   }
 }
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* For IE, Edge and Firefox */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
