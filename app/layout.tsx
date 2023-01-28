@@ -1,4 +1,5 @@
 import AuthContext from "./AuthContext";
+import RecoilWrapper from "./RecoilWrapper";
 import { Inter } from "@next/font/google";
 import "../styles/globals.css";
 
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={inter.className}>
       <AuthContext>
-        <body>{children}</body>
+        <RecoilWrapper>
+          <body>{children}</body>
+        </RecoilWrapper>
       </AuthContext>
     </html>
   );
