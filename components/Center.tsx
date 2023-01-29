@@ -2,6 +2,9 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { shuffle } from "lodash";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { playlistIdState, playlistState } from "../atoms/playlistAtom";
+import useSpotify from "../hooks/useSpotify";
 
 const colors = [
   "from-indigo-500",
@@ -15,16 +18,30 @@ const colors = [
 
 export default function Center() {
   const { data: session, status } = useSession();
+  const spotifyApi = useSpotify();
   const [color, setColor] = useState<string | null | undefined>(null);
+  const playlistId = useRecoilValue(playlistIdState);
+  const [playlist, setPlaylist] = useRecoilState(playlistState);
 
   useEffect(() => {
     setColor(shuffle(colors).pop());
-  }, []);
+  }, [playlistId]);
+
+  useEffect(() => {
+    if (spotifyApi.getAccessToken()) {
+      spotifyApi
+        .getPlaylist(playlistId)
+        .then((data) => setPlaylist(data.body))
+        .catch((error) => console.log("Something went wrong", error));
+    }
+  }, [spotifyApi, playlistId, setPlaylist]);
+
+  console.log(playlist);
 
   return (
     <div className="flex-grow text-white">
       <header className="absolute top-5 right-8">
-        <div className="flex items-center bg-black p-1 pr-2 space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full">
+        <div className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full">
           <img
             className="rounded-full w-10 h-10"
             alt="photo of user"
