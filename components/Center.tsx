@@ -1,7 +1,6 @@
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { shuffle } from "lodash";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../atoms/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
@@ -16,6 +15,17 @@ const colors = [
   "from-purple-500",
 ];
 
+function randomColor(arr: string[]) {
+  const arrCopy = [...arr];
+  for (let i = arrCopy.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * i + 1);
+    let temp = arrCopy[i];
+    arrCopy[i] = arrCopy[j];
+    arrCopy[j] = temp;
+  }
+  return arrCopy.pop();
+}
+
 export default function Center() {
   const { data: session, status } = useSession();
   const spotifyApi = useSpotify();
@@ -23,10 +33,13 @@ export default function Center() {
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
 
+  // Setting the background to a random color when the component mounts or when the playlistId state changes.
   useEffect(() => {
-    setColor(shuffle(colors).pop());
+    setColor(randomColor(colors));
   }, [playlistId]);
 
+  // When playlistId changes or when the component mounts, and if the user has an accessToken,
+  // request the playlist data using the playlistId state. Then set playlist state to that data.
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
       spotifyApi
@@ -41,7 +54,7 @@ export default function Center() {
   return (
     <div className="flex-grow text-white">
       <header className="absolute top-5 right-8">
-        <div className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full">
+        <div className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:opacity-70 cursor-pointer rounded-full">
           <img
             className="rounded-full w-10 h-10"
             alt="photo of user"

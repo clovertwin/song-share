@@ -16,7 +16,12 @@ export default async function Login() {
   const session = await unstable_getServerSession();
   return (
     <div className="h-screen bg-black flex flex-col justify-center items-center">
-      <Image className="max-w-sm mb-14" alt="spotify logo" src={logo} />
+      <Image
+        className="max-w-sm mb-14"
+        alt="spotify logo"
+        src={logo}
+        priority={true}
+      />
       <Button provider={provider} />
     </div>
   );
