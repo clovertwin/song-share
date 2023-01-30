@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../atoms/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
+import Image from "next/image";
+import Songs from "./Songs";
 
 const colors = [
   "from-indigo-500",
@@ -67,9 +69,25 @@ export default function Center() {
       <section
         className={`flex items-end space-x-7 bg-gradient-to-b ${color} to-black h-80 text-white p-8`}
       >
-        {/* <img src="" alt="" /> */}
-        <h1>hello</h1>
+        {playlist?.images[0].url ? (
+          <img
+            src={playlist?.images[0]?.url}
+            alt="playlist image"
+            className="h-44 w-44"
+          />
+        ) : (
+          <div className="h-44 w-44 bg-transparent"></div>
+        )}
+        <div>
+          <p>PLAYLIST</p>
+          <h1 className="text-2xl font-bold md:text-3xl xl:text-5xl">
+            {playlist?.name}
+          </h1>
+        </div>
       </section>
+      <div className="p-8">
+        <Songs />
+      </div>
     </div>
   );
 }
