@@ -1,6 +1,6 @@
 import { getProviders } from "next-auth/react";
 import { Button } from "./Button";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import logo from "../../public/Spotify_Logo_CMYK_Green.png";
 
@@ -13,7 +13,7 @@ async function getData() {
 
 export default async function Login() {
   const provider = await getData();
-  const session = await unstable_getServerSession();
+  const session = await getServerSession();
   return (
     <div className="h-screen bg-black flex flex-col justify-center items-center">
       <Image

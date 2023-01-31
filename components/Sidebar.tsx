@@ -6,15 +6,19 @@ import {
   HeartIcon,
   RssIcon,
 } from "@heroicons/react/24/outline";
+import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playlistIdState } from "../atoms/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
 
-export default function Sidebar() {
-  const spotifyApi = useSpotify();
-  const { data: session, status } = useSession();
+interface Props {
+  session: Session | null;
+}
+
+export default function Sidebar({ session }: Props) {
+  const spotifyApi = useSpotify(session);
   const [playlists, setPlaylists] = useState<
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
@@ -28,10 +32,10 @@ export default function Sidebar() {
     }
   }, [spotifyApi, session]);
 
-  console.log("You picked playlist: ", playlistId);
+  console.log("You selected", playlistId);
 
   return (
-    <div className="text-gray-500 p-5 text-sm border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen">
+    <div className="hidden text-gray-500 p-5 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">
         <button onClick={() => signOut()} className="hover:text-white">
           signout

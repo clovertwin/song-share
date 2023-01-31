@@ -1,15 +1,18 @@
 "use client";
-import { useSession, signOut } from "next-auth/react";
+import { Session } from "next-auth";
 import Center from "../components/Center";
 import Sidebar from "../components/Sidebar";
 
-export default function Home() {
-  const { data: session, status } = useSession();
+interface Props {
+  session: Session | null;
+}
+
+export default function Home({ session }: Props) {
   return (
     <div className="bg-black h-screen overflow-hidden">
       <main className="flex">
-        <Sidebar />
-        <Center />
+        <Sidebar session={session} />
+        <Center session={session} />
       </main>
       <div>{/* song player */}</div>
     </div>

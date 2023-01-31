@@ -7,5 +7,5 @@ export const playlistState = atom<SpotifyApi.SinglePlaylistResponse>({
 
 export const playlistIdState = atom({
   key: "playlistIdState",
-  default: "Digital",
+  default: "2ikkUzxTTfEAJ6aZ3CvC0a",
 });
