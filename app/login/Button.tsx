@@ -3,9 +3,10 @@ import { signIn, ClientSafeProvider, LiteralUnion } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 
 interface ButtonProps {
-  provider:
-    | Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
-    | undefined;
+  provider: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null;
 }
 
 export const Button = ({ provider }: ButtonProps) => {

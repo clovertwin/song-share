@@ -1,19 +1,10 @@
 import { getProviders } from "next-auth/react";
 import { Button } from "./Button";
-import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import logo from "../../public/Spotify_Logo_CMYK_Green.png";
 
-async function getData() {
-  const provider = await getProviders();
-  if (provider?.spotify) {
-    return provider;
-  }
-}
-
 export default async function Login() {
-  const provider = await getData();
-  const session = await getServerSession();
+  const provider = await getProviders();
   return (
     <div className="h-screen bg-black flex flex-col justify-center items-center">
       <Image
