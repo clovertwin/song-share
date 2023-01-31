@@ -7,7 +7,7 @@ import {
   RssIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playlistIdState } from "../atoms/playlistAtom";

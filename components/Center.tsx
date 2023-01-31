@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../atoms/playlistAtom";
