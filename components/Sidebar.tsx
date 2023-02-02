@@ -32,8 +32,6 @@ export default function Sidebar({ session }: Props) {
     }
   }, [spotifyApi, session]);
 
-  console.log("You selected", playlistId);
-
   return (
     <div className="hidden text-gray-500 p-5 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">

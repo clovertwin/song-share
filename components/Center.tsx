@@ -56,7 +56,7 @@ export default function Center({ session }: Props) {
   console.log(playlist);
 
   return (
-    <div className="flex-grow text-white">
+    <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
         <div className="flex items-center bg-black bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:opacity-70 cursor-pointer rounded-full">
           <img
@@ -90,7 +90,7 @@ export default function Center({ session }: Props) {
         </div>
       </section>
       <div className="p-8">
-        <Songs />
+        <Songs session={session} />
       </div>
     </div>
   );
