@@ -4,6 +4,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    domains: ["platform-lookaside.fbsbx.com", "mosaic.scdn.co", "i.scdn.co"],
+  },
 };
 
 module.exports = nextConfig;

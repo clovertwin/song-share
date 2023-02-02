@@ -1,5 +1,6 @@
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
+import Image from "next/image";
 
 interface Props {
   track: SpotifyApi.PlaylistTrackObject;
@@ -13,10 +14,12 @@ export default function Song({ track, order, session }: Props) {
     <div className="grid grid-cols-2 pb-5">
       <div className="flex items-center space-x-4">
         <p>{order + 1}</p>
-        <img
-          src={track.track?.album.images[0].url}
+        <Image
+          src={track.track?.album.images[0].url as string}
           alt="album artwork"
           className="h-10 w-10"
+          height={640}
+          width={640}
         />
         <div>
           <p>{track.track?.name}</p>
