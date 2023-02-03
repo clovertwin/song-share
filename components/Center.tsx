@@ -85,6 +85,7 @@ export default function Center({ session }: Props) {
             className="h-44 w-44"
             width={640}
             height={640}
+            priority={true}
           />
         ) : (
           <div className="flex items-center justify-center text-xs h-44 w-44 bg-black opacity-60">

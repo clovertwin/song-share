@@ -15,8 +15,8 @@ export default function Home({ session }: Props) {
         <Sidebar session={session} />
         <Center session={session} />
       </main>
-      <div className="sticky bottom-0 py-5 w-full bg-black text-center">
-        <Player />
+      <div className="sticky bottom-0">
+        <Player session={session} />
       </div>
     </div>
   );
