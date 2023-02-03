@@ -7,7 +7,6 @@ import {
   RssIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playlistIdState } from "../atoms/playlistAtom";
@@ -35,9 +34,6 @@ export default function Sidebar({ session }: Props) {
   return (
     <div className="hidden text-gray-500 p-5 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">
-        <button onClick={() => signOut()} className="hover:text-white">
-          signout
-        </button>
         <button className="flex items-center space-x-2 hover:text-white">
           <HomeIcon className="h-5 w-5" />
           <p>Home</p>

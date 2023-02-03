@@ -6,6 +6,7 @@ import useSpotify from "../hooks/useSpotify";
 import Songs from "./Songs";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 
 interface Props {
   session: Session | null;
@@ -59,7 +60,10 @@ export default function Center({ session }: Props) {
   return (
     <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
       <header className="absolute top-5 right-8">
-        <div className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full">
+        <div
+          className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full"
+          onClick={() => signOut()}
+        >
           <Image
             className="rounded-full w-10 h-10"
             alt="photo of user"
