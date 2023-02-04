@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
 import { useRecoilState } from "recoil";
@@ -18,7 +18,29 @@ export default function Player({ session }: Props) {
   const [volume, setVolume] = useState(50);
   const songInfo = useSongInfo(session);
 
-  console.log("song info", songInfo);
+  useEffect(() => {
+    const fetchCurrentSong = () => {
+      if (!songInfo) {
+        spotifyApi.getMyCurrentPlayingTrack().then((data) => {
+          setCurrentTrackId(data.body.item?.id as string);
+          spotifyApi.getMyCurrentPlaybackState().then((data) => {
+            setIsPlaying(data.body.is_playing);
+          });
+        });
+      }
+    };
+    if (spotifyApi.getAccessToken() && !currentTrackId) {
+      fetchCurrentSong();
+      setVolume(50);
+    }
+  }, [
+    spotifyApi,
+    session,
+    currentTrackId,
+    setCurrentTrackId,
+    setIsPlaying,
+    songInfo,
+  ]);
 
   return (
     <div className="text-white">
