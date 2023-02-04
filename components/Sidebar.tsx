@@ -32,7 +32,7 @@ export default function Sidebar({ session }: Props) {
   }, [spotifyApi, session]);
 
   return (
-    <div className="hidden text-gray-500 p-5 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
+    <div className="hidden text-gray-500 p-5 pb-36 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">
         <button className="flex items-center space-x-2 hover:text-white">
           <HomeIcon className="h-5 w-5" />
