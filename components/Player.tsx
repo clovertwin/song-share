@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useMemo, useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
 import { useRecoilState } from "recoil";
@@ -31,11 +31,12 @@ export default function Player({ session }: Props) {
   const [volume, setVolume] = useState(50);
   const songInfo = useSongInfo(session);
 
-  const debouncedAdjustVolume = useCallback(
-    debounce((volume) => {
-      spotifyApi.setVolume(volume).catch((error) => {});
-    }, 300),
-    []
+  const debouncedAdjustVolume = useMemo(
+    () =>
+      debounce((volume: number) => {
+        spotifyApi.setVolume(volume).catch((error) => {});
+      }, 300),
+    [spotifyApi]
   );
 
   useEffect(() => {
