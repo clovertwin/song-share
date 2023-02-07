@@ -10,6 +10,7 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playlistIdState } from "../atoms/playlistAtom";
+import { searchSelectedState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
 
 interface Props {
@@ -22,6 +23,8 @@ export default function Sidebar({ session }: Props) {
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+  const [searchSelected, setSearchSelected] =
+    useRecoilState(searchSelectedState);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -31,6 +34,13 @@ export default function Sidebar({ session }: Props) {
     }
   }, [spotifyApi, session]);
 
+  const handlePlaylistSelect = (
+    playlist: SpotifyApi.PlaylistObjectSimplified
+  ) => {
+    setPlaylistId(playlist.id);
+    setSearchSelected(false);
+  };
+
   return (
     <div className="hidden text-gray-500 p-5 pb-36 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">
@@ -38,7 +48,10 @@ export default function Sidebar({ session }: Props) {
           <HomeIcon className="h-5 w-5" />
           <p>Home</p>
         </button>
-        <button className="flex items-center space-x-2 hover:text-white">
+        <button
+          onClick={() => setSearchSelected(!searchSelected)}
+          className="flex items-center space-x-2 hover:text-white"
+        >
           <MagnifyingGlassIcon className="h-5 w-5" />
           <p>Search</p>
         </button>
@@ -65,7 +78,7 @@ export default function Sidebar({ session }: Props) {
         {playlists.map((playlist) => (
           <p
             key={playlist.id}
-            onClick={() => setPlaylistId(playlist.id)}
+            onClick={() => handlePlaylistSelect(playlist)}
             className="cursor-pointer hover:text-white"
           >
             {playlist.name}
