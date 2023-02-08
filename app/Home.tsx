@@ -18,7 +18,11 @@ export default function Home({ session }: Props) {
     <div className="bg-black h-screen overflow-hidden">
       <main className="flex">
         <Sidebar session={session} />
-        {searchSelected ? <Search /> : <Center session={session} />}
+        {searchSelected ? (
+          <Search session={session} />
+        ) : (
+          <Center session={session} />
+        )}
       </main>
       <div className="sticky bottom-0">
         <Player session={session} />
