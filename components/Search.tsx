@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useMemo, useState, ChangeEvent, useEffect } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { searchSelectedState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
+import { debounce } from "lodash";
+import useSpotify from "../hooks/useSpotify";
+import { Session } from "next-auth";
 
-export default function Search() {
+interface Props {
+  session: Session | null;
+}
+
+export default function Search({ session }: Props) {
   const [searchValue, setSearchValue] = useState("");
+  const [topArtist, setTopArtist] = useState<string | undefined>("");
   const [searchSelected, setSearchSelected] =
     useRecoilState(searchSelectedState);
+  const spotifyApi = useSpotify(session);
+
+  const handleSubmit = () => {
+    if (searchValue) {
+      spotifyApi
+        .searchArtists(searchValue)
+        .then((data) => setTopArtist(data.body.artists?.items[0].name));
+    }
+  };
+
+  console.log(topArtist);
 
   return (
     <div className="h-screen mx-auto flex justify-center items-center text-white">
@@ -28,11 +47,18 @@ export default function Search() {
         />
       </form>
       <button
+        onClick={handleSubmit}
+        className="ml-5 rounded-md px-5 py-1 border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700"
+      >
+        search
+      </button>
+      <button
         onClick={() => setSearchValue("")}
         className="ml-5 rounded-md px-5 py-1 border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700"
       >
         clear
       </button>
+      <p className="text-white">{topArtist}</p>
     </div>
   );
 }
