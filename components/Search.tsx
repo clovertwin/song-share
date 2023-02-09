@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
 import { searchArtistsState } from "../atoms/artistAtom";
+import Image from "next/image";
 
 interface Props {
   session: Session | null;
@@ -33,7 +34,7 @@ export default function Search({ session }: Props) {
   };
 
   return (
-    <div className="bg-black w-full h-screen overflow-y-scroll text-white pb-36">
+    <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-36">
       <div className="sticky top-0 flex items-center justify-around py-10 bg-black z-10">
         <div className="flex justify-center">
           <input
@@ -66,13 +67,26 @@ export default function Search({ session }: Props) {
           <XMarkIcon className="h-8 w-8 text-gray-500" />
         </div>
       </div>
-      {artists.length > 0 &&
-        artists.map((artist: SpotifyApi.ArtistObjectFull, i) => (
-          <div className="flex" key={artist.id}>
-            <p className="text-2xl ml-5">{i + 1}</p>
-            <h1 className="text-2xl ml-5">{artist.name}</h1>
-          </div>
-        ))}
+      <div className="px-8">
+        {artists.length > 0 &&
+          artists.map((artist: SpotifyApi.ArtistObjectFull) => (
+            <div
+              key={artist.id}
+              className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
+            >
+              {artist.images.length > 0 && (
+                <Image
+                  alt={`${artist.name} image`}
+                  src={artist.images[0]?.url}
+                  height={640}
+                  width={640}
+                  className="h-14 w-14"
+                />
+              )}
+              <h1 className="text-lg ml-5">{artist.name}</h1>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
