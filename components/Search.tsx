@@ -44,6 +44,7 @@ export default function Search({ session }: Props) {
             name="search"
             id="search"
             placeholder="search for artists.."
+            autoComplete="off"
           />
           <button
             onClick={handleSubmit}
