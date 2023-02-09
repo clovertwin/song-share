@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-export const searchSelectedState = atom({
-  key: "searchSelectedState",
+export const searchOpenState = atom({
+  key: "searchOpenState",
   default: false,
 });

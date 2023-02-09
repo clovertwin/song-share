@@ -10,7 +10,7 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { playlistIdState } from "../atoms/playlistAtom";
-import { searchSelectedState } from "../atoms/searchAtom";
+import { searchOpenState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
 
 interface Props {
@@ -23,8 +23,7 @@ export default function Sidebar({ session }: Props) {
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
-  const [searchSelected, setSearchSelected] =
-    useRecoilState(searchSelectedState);
+  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -38,7 +37,7 @@ export default function Sidebar({ session }: Props) {
     playlist: SpotifyApi.PlaylistObjectSimplified
   ) => {
     setPlaylistId(playlist.id);
-    setSearchSelected(false);
+    setSearchOpen(false);
   };
 
   return (
@@ -49,7 +48,7 @@ export default function Sidebar({ session }: Props) {
           <p>Home</p>
         </button>
         <button
-          onClick={() => setSearchSelected(!searchSelected)}
+          onClick={() => setSearchOpen(!searchOpen)}
           className="flex items-center space-x-2 hover:text-white"
         >
           <MagnifyingGlassIcon className="h-5 w-5" />
