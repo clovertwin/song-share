@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
@@ -6,6 +6,7 @@ import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
 import { searchArtistsState } from "../atoms/artistAtom";
 import Image from "next/image";
+import { searchSelectedArtistState } from "../atoms/searchSelectedArtist";
 
 interface Props {
   session: Session | null;
@@ -15,31 +16,45 @@ export default function Search({ session }: Props) {
   const [searchValue, setSearchValue] = useState("");
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
   const [artists, setArtists] = useRecoilState(searchArtistsState);
+  const [selectedArtist, setSelectedArtist] = useRecoilState(
+    searchSelectedArtistState
+  );
   const spotifyApi = useSpotify(session);
 
-  const handleSubmit = () => {
+  const refreshAccessToken = useCallback(() => {
+    spotifyApi
+      .refreshAccessToken()
+      .then((data) => {
+        console.log("The access token has been refreshed!");
+        spotifyApi.setAccessToken(data.body["access_token"]);
+      })
+      .catch((err) =>
+        console.log(
+          "Could not refresh the access token, please refresh page",
+          err
+        )
+      );
+  }, [spotifyApi]);
+
+  useEffect(() => {
+    if (spotifyApi.getAccessToken()) {
+      spotifyApi.getArtistAlbums(selectedArtist.id).then((data) => {
+        console.log(data.body.items);
+      });
+    } else refreshAccessToken();
+  }, [selectedArtist, spotifyApi, refreshAccessToken]);
+
+  const handleSearch = () => {
     if (searchValue) {
       try {
         spotifyApi.searchArtists(searchValue).then((data) => {
           if (data.body.artists) {
             setArtists(data.body.artists.items);
-            console.log(data.body.artists.items);
           }
         });
       } catch (err) {
         console.log("Refreshing access token");
-        spotifyApi
-          .refreshAccessToken()
-          .then((data) => {
-            console.log("The access token has been refreshed!");
-            spotifyApi.setAccessToken(data.body["access_token"]);
-          })
-          .catch((err) =>
-            console.log(
-              "Could not refresh the access token, please refresh page",
-              err
-            )
-          );
+        refreshAccessToken();
       }
     }
   };
@@ -47,6 +62,10 @@ export default function Search({ session }: Props) {
   const handleClear = () => {
     setSearchValue("");
     setArtists([]);
+  };
+
+  const handleSelectArtist = (artist: SpotifyApi.ArtistObjectFull) => {
+    setSelectedArtist(artist);
   };
 
   return (
@@ -64,7 +83,7 @@ export default function Search({ session }: Props) {
             autoComplete="off"
           />
           <button
-            onClick={handleSubmit}
+            onClick={handleSearch}
             className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
           >
             search
@@ -87,6 +106,7 @@ export default function Search({ session }: Props) {
         {artists.length > 0 &&
           artists.map((artist: SpotifyApi.ArtistObjectFull) => (
             <div
+              onClick={() => handleSelectArtist(artist)}
               key={artist.id}
               className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
             >
