@@ -99,6 +99,7 @@ export default function Player({ session }: Props) {
           <p>{songInfo?.artists[0].name}</p>
         </div>
       </div>
+      {/** Center */}
       <div className="flex items-center justify-evenly">
         <ArrowsRightLeftIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
         <BackwardIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
@@ -116,6 +117,7 @@ export default function Player({ session }: Props) {
         <ForwardIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
         <ArrowUturnLeftIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
       </div>
+      {/** Right */}
       <div className="flex items-center justify-end pr-5 space-x-3 md:space-x-4">
         <VolumeDown
           onClick={() => volume > 0 && setVolume(volume - 10)}

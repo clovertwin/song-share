@@ -19,12 +19,28 @@ export default function Search({ session }: Props) {
 
   const handleSubmit = () => {
     if (searchValue) {
-      spotifyApi.searchArtists(searchValue).then((data) => {
-        if (data.body.artists) {
-          setArtists(data.body.artists.items);
-          console.log(data.body.artists.items);
-        }
-      });
+      try {
+        spotifyApi.searchArtists(searchValue).then((data) => {
+          if (data.body.artists) {
+            setArtists(data.body.artists.items);
+            console.log(data.body.artists.items);
+          }
+        });
+      } catch (err) {
+        console.log("Refreshing access token");
+        spotifyApi
+          .refreshAccessToken()
+          .then((data) => {
+            console.log("The access token has been refreshed!");
+            spotifyApi.setAccessToken(data.body["access_token"]);
+          })
+          .catch((err) =>
+            console.log(
+              "Could not refresh the access token, please refresh page",
+              err
+            )
+          );
+      }
     }
   };
 
@@ -49,20 +65,20 @@ export default function Search({ session }: Props) {
           />
           <button
             onClick={handleSubmit}
-            className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700"
+            className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
           >
             search
           </button>
           <button
             onClick={handleClear}
-            className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700"
+            className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
           >
             clear
           </button>
         </div>
         <div
           onClick={() => setSearchOpen(!searchOpen)}
-          className="mr-10 w-9 rounded-md border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700 hover:cursor-pointer"
+          className="mr-10 w-9 rounded-md border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700 focus:border-gray-700 hover:cursor-pointer"
         >
           <XMarkIcon className="h-8 w-8 text-gray-500" />
         </div>
