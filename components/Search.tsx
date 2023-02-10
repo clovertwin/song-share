@@ -63,6 +63,7 @@ export default function Search({ session }: Props) {
             id="search"
             placeholder="search for artists.."
             autoComplete="off"
+            onKeyUp={(e) => e.key === "Enter" && handleSearch()}
           />
           <button
             onClick={handleSearch}
