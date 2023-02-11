@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
 import Image from "next/image";
-import { searchSelectedArtistState } from "../atoms/searchSelectedArtist";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -23,17 +22,8 @@ export default function Search({ session }: Props) {
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[] | []>(
     []
   );
-  // const [selectedArtist, setSelectedArtist] = useRecoilState(
-  //   searchSelectedArtistState
-  // );
   const router = useRouter();
   const spotifyApi = useSpotify(session);
-
-  // useEffect(() => {
-  //   if (spotifyApi.getAccessToken() && selectedArtist.name) {
-  //     router.push(`/artist?id=${selectedArtist.id}`);
-  //   }
-  // }, [selectedArtist, spotifyApi, router]);
 
   const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
     switch (type) {
