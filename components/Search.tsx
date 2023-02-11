@@ -7,6 +7,8 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import { searchSelectedArtistState } from "../atoms/searchSelectedArtist";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   session: Session | null;
@@ -21,18 +23,17 @@ export default function Search({ session }: Props) {
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[] | []>(
     []
   );
-  const [selectedArtist, setSelectedArtist] = useRecoilState(
-    searchSelectedArtistState
-  );
+  // const [selectedArtist, setSelectedArtist] = useRecoilState(
+  //   searchSelectedArtistState
+  // );
+  const router = useRouter();
   const spotifyApi = useSpotify(session);
 
-  useEffect(() => {
-    if (spotifyApi.getAccessToken() && selectedArtist.name) {
-      spotifyApi.getArtistAlbums(selectedArtist.id).then((data) => {
-        console.log(data.body.items);
-      });
-    }
-  }, [selectedArtist, spotifyApi]);
+  // useEffect(() => {
+  //   if (spotifyApi.getAccessToken() && selectedArtist.name) {
+  //     router.push(`/artist?id=${selectedArtist.id}`);
+  //   }
+  // }, [selectedArtist, spotifyApi, router]);
 
   const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
     switch (type) {
@@ -72,14 +73,6 @@ export default function Search({ session }: Props) {
     setSearchValue("");
     setArtists([]);
   };
-
-  const handleSelectArtist = (artist: SpotifyApi.ArtistObjectFull) => {
-    setSelectedArtist(artist);
-  };
-
-  if (artistSearchSelected) console.log("artist page selected");
-  else if (albumSearchSelected) console.log("album page selected");
-  else if (songSearchSelected) console.log("song page selected");
 
   return (
     <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-36">
@@ -121,19 +114,31 @@ export default function Search({ session }: Props) {
         <div className="flex items-center justify-center space-x-10 bg-black">
           <button
             onClick={() => handleSearchTypeSelect("artist")}
-            className="border-2 border-gray-800 text-gray-500 rounded-md py-1 px-10 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white"
+            className={`border-2 ${
+              artistSearchSelected
+                ? `border-gray-700 text-white`
+                : `border-gray-800 text-gray-500`
+            } rounded-md py-1 px-5 text-md 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Artists
           </button>
           <button
             onClick={() => handleSearchTypeSelect("album")}
-            className="border-2 border-gray-800 text-gray-500 rounded-md py-1 px-10 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white"
+            className={`border-2 ${
+              albumSearchSelected
+                ? `border-gray-700 text-white`
+                : `border-gray-800 text-gray-500`
+            } rounded-md py-1 px-5 text-md 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Albums
           </button>
           <button
             onClick={() => handleSearchTypeSelect("song")}
-            className="border-2 border-gray-800 text-gray-500 rounded-md py-1 px-10 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white"
+            className={`border-2 ${
+              songSearchSelected
+                ? `border-gray-700 text-white`
+                : `border-gray-800 text-gray-500`
+            } rounded-md py-1 px-5 text-md 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Songs
           </button>
@@ -143,8 +148,8 @@ export default function Search({ session }: Props) {
       <div className="px-8">
         {artists.length > 0 &&
           artists.map((artist: SpotifyApi.ArtistObjectFull) => (
-            <div
-              onClick={() => handleSelectArtist(artist)}
+            <Link
+              href={`/artist?id=${artist.id}`}
               key={artist.id}
               className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
             >
@@ -162,7 +167,7 @@ export default function Search({ session }: Props) {
                 </div>
               )}
               <h1 className="text-lg ml-5">{artist.name}</h1>
-            </div>
+            </Link>
           ))}
       </div>
     </div>

@@ -68,6 +68,7 @@ export default function Center({ session }: Props) {
             src={session?.user.image as string}
             height={300}
             width={300}
+            priority={true}
           />
           <h2>{session?.user.name}</h2>
           <ChevronDownIcon className="h-5, w-5" />

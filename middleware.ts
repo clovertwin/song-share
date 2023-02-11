@@ -19,5 +19,5 @@ export async function middleware(req: NextRequest) {
 
 // Watch for requests to access these url's, for multiples matcher will be an array of routes
 export const config = {
-  matcher: "/",
+  matcher: ["/", "/artist"],
 };
