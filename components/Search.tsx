@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
@@ -21,7 +21,12 @@ export default function Search({ session }: Props) {
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[]>([]);
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
   const spotifyApi = useSpotify(session);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
     switch (type) {
@@ -79,10 +84,11 @@ export default function Search({ session }: Props) {
   return (
     <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-36">
       {/** Search Bar */}
-      <div className="sticky top-0 flex flex-col p-10 bg-black">
+      <div className="sticky top-0 flex flex-col py-10 px-10 bg-black lg:px-52">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
-          <div className="flex justify-center">
+          <div className="flex justify-center pr-5">
             <input
+              ref={inputRef}
               className="ml-5 px-5 py-1 h-10 bg-black border-2 border-green-700 rounded-md focus:outline-none focus:border-green-400 focus:ring-green-500"
               onChange={(e) => setSearchValue(e.target.value)}
               value={searchValue}
@@ -112,12 +118,12 @@ export default function Search({ session }: Props) {
               clear
             </button>
           </div>
-          <div
+          <button
             onClick={() => setSearchOpen(!searchOpen)}
-            className="mr-10 w-9 rounded-md border-2 border-gray-800 active:bg-gray-900 hover:border-gray-700 focus:border-gray-700 hover:cursor-pointer"
+            className="mr-10 w-9 rounded-md border-2 border-gray-800 text-gray-500 active:bg-gray-900 hover:border-gray-700 focus:border-green-500 focus:text-white  focus:outline-none focus:ring-green-500 hover:cursor-pointer"
           >
-            <XMarkIcon className="h-8 w-8 text-gray-500" />
-          </div>
+            <XMarkIcon className="h-8 w-8" />
+          </button>
         </div>
         <div className="flex items-center ml-5 space-x-5 bg-black">
           <button
