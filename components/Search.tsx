@@ -4,10 +4,8 @@ import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
-import Image from "next/image";
-import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import ArtistSearch from "./AritistSearch";
+import AlbumSearch from "./AlbumSearch";
 
 interface Props {
   session: Session | null;
@@ -19,10 +17,8 @@ export default function Search({ session }: Props) {
   const [albumSearchSelected, setAlbumSearchSelected] = useState(false);
   const [songSearchSelected, setSongSearchSelected] = useState(false);
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
-  const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[] | []>(
-    []
-  );
-  const router = useRouter();
+  const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[]>([]);
+  const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const spotifyApi = useSpotify(session);
 
   const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
@@ -50,10 +46,17 @@ export default function Search({ session }: Props) {
   };
 
   const handleSearch = () => {
-    if (searchValue) {
+    if (searchValue && artistSearchSelected) {
       spotifyApi.searchArtists(searchValue).then((data) => {
         if (data.body.artists) {
           setArtists(data.body.artists.items);
+        }
+      });
+    } else if (searchValue && albumSearchSelected) {
+      spotifyApi.searchAlbums(searchValue).then((data) => {
+        if (data.body.albums) {
+          setAlbums(data.body.albums.items);
+          console.log(data.body.albums.items);
         }
       });
     }
@@ -135,31 +138,8 @@ export default function Search({ session }: Props) {
         </div>
       </div>
       {/** Search Results */}
-      <div className="px-8">
-        {artists.length > 0 &&
-          artists.map((artist: SpotifyApi.ArtistObjectFull) => (
-            <Link
-              href={`/artist?id=${artist.id}`}
-              key={artist.id}
-              className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
-            >
-              {artist.images.length > 0 ? (
-                <Image
-                  alt={`${artist.name} image`}
-                  src={artist.images[0]?.url}
-                  height={640}
-                  width={640}
-                  className="h-14 w-14"
-                />
-              ) : (
-                <div className="w-14 h-14 flex items-center justify-center bg-gray-800">
-                  <PhotoIcon className="w-5 h-5 text-gray-500" />
-                </div>
-              )}
-              <h1 className="text-lg ml-5">{artist.name}</h1>
-            </Link>
-          ))}
-      </div>
+      {artistSearchSelected && <ArtistSearch artists={artists} />}
+      {albumSearchSelected && <AlbumSearch albums={albums} />}
     </div>
   );
 }
