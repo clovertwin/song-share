@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../pages/api/auth/[...nextauth]";
-import Artist from "./ArtistPage";
+import Song from "./SongPage";
 
-export default async function ArtistPage() {
+export default async function SongPage() {
   const session = await getServerSession(authOptions);
-  return <Artist session={session} />;
+  return <Song session={session} />;
 }

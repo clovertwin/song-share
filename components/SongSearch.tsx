@@ -6,15 +6,13 @@ interface Props {
   songs: SpotifyApi.TrackObjectFull[];
 }
 
-/** Replace div surrounding Image with Link once song route is setup */
-
 export default function SongSearch({ songs }: Props) {
   return (
     <div className="px-8">
       {songs.length > 0 &&
         songs.map((song) => (
-          <div
-            // href={`/album?id=${album.id}`}
+          <Link
+            href={`/song?id=${song.id}`}
             key={song.id}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >
@@ -32,7 +30,7 @@ export default function SongSearch({ songs }: Props) {
               </div>
             )}
             <h1 className="text-lg ml-5">{song.name}</h1>
-          </div>
+          </Link>
         ))}
     </div>
   );

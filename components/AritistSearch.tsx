@@ -1,18 +1,36 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
+import { useRecoilState } from "recoil";
+import {
+  artistComponentOpenState,
+  selectedArtistId,
+} from "../atoms/artistAtom";
+import { searchOpenState } from "../atoms/searchAtom";
 
 interface Props {
   artists: SpotifyApi.ArtistObjectFull[];
 }
 
 export default function ArtistSearch({ artists }: Props) {
+  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
+    artistComponentOpenState
+  );
+  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
+  const [artistId, setArtistId] = useRecoilState(selectedArtistId);
+
+  const handleSelect = (id: string) => {
+    setArtistId(id);
+    setArtistComponentOpen(true);
+    setSearchOpen(false);
+  };
+
   return (
     <div className="px-8">
       {artists.length > 0 &&
         artists.map((artist: SpotifyApi.ArtistObjectFull) => (
-          <Link
-            href={`/artist?id=${artist.id}`}
+          <div
+            onClick={() => handleSelect(artist.id)}
+            // href={`/artist?id=${artist.id}`}
             key={artist.id}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >
@@ -30,7 +48,7 @@ export default function ArtistSearch({ artists }: Props) {
               </div>
             )}
             <h1 className="text-lg ml-5">{artist.name}</h1>
-          </Link>
+          </div>
         ))}
     </div>
   );

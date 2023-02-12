@@ -64,7 +64,6 @@ export default function Search({ session }: Props) {
       spotifyApi.searchTracks(searchValue).then((data) => {
         if (data.body.tracks) {
           setSongs(data.body.tracks?.items);
-          console.log(data.body.tracks?.items);
         }
       });
     }
