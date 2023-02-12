@@ -9,6 +9,8 @@ import {
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { albumComponentOpenState } from "../atoms/albumAtom";
+import { artistComponentOpenState } from "../atoms/artistAtom";
 import { playlistIdState } from "../atoms/playlistAtom";
 import { searchOpenState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
@@ -24,6 +26,12 @@ export default function Sidebar({ session }: Props) {
   >([]);
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
+  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
+    artistComponentOpenState
+  );
+  const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
+    albumComponentOpenState
+  );
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -38,6 +46,8 @@ export default function Sidebar({ session }: Props) {
   ) => {
     setPlaylistId(playlist.id);
     setSearchOpen(false);
+    setArtistComponentOpen(false);
+    setAlbumComponentOpen(false);
   };
 
   return (

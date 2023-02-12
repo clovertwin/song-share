@@ -1,18 +1,33 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { albumComponentOpenState, selectedAlbumId } from "../atoms/albumAtom";
+import { searchOpenState } from "../atoms/searchAtom";
 
 interface Props {
   albums: SpotifyApi.AlbumObjectSimplified[];
 }
 
 export default function AlbumSearch({ albums }: Props) {
+  const [albumId, setAlbumId] = useRecoilState(selectedAlbumId);
+  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
+  const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
+    albumComponentOpenState
+  );
+
+  const handleSelect = (id: string) => {
+    setAlbumId(id);
+    setAlbumComponentOpen(true);
+    setSearchOpen(false);
+  };
+
   return (
     <div className="px-8">
       {albums.length > 0 &&
         albums.map((album) => (
-          <Link
-            href={`/album?id=${album.id}`}
+          <div
+            onClick={() => handleSelect(album.id)}
             key={album.id}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >
@@ -30,7 +45,7 @@ export default function AlbumSearch({ albums }: Props) {
               </div>
             )}
             <h1 className="text-lg ml-5">{album.name}</h1>
-          </Link>
+          </div>
         ))}
     </div>
   );
