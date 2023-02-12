@@ -3,23 +3,25 @@ import { PhotoIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 interface Props {
-  albums: SpotifyApi.AlbumObjectSimplified[];
+  songs: SpotifyApi.TrackObjectFull[];
 }
 
-export default function AlbumSearch({ albums }: Props) {
+/** Replace div surrounding Image with Link once song route is setup */
+
+export default function SongSearch({ songs }: Props) {
   return (
     <div className="px-8">
-      {albums.length > 0 &&
-        albums.map((album) => (
-          <Link
-            href={`/album?id=${album.id}`}
-            key={album.id}
+      {songs.length > 0 &&
+        songs.map((song) => (
+          <div
+            // href={`/album?id=${album.id}`}
+            key={song.id}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >
-            {album.images.length > 0 ? (
+            {song.album.images.length > 0 ? (
               <Image
-                alt={`${album.name} image`}
-                src={album.images[0]?.url}
+                alt={`${song.album.name} image`}
+                src={song.album.images[0]?.url}
                 height={640}
                 width={640}
                 className="h-14 w-14"
@@ -29,8 +31,8 @@ export default function AlbumSearch({ albums }: Props) {
                 <PhotoIcon className="w-5 h-5 text-gray-500" />
               </div>
             )}
-            <h1 className="text-lg ml-5">{album.name}</h1>
-          </Link>
+            <h1 className="text-lg ml-5">{song.name}</h1>
+          </div>
         ))}
     </div>
   );

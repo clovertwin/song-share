@@ -6,6 +6,7 @@ import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
 import ArtistSearch from "./AritistSearch";
 import AlbumSearch from "./AlbumSearch";
+import SongSearch from "./SongSearch";
 
 interface Props {
   session: Session | null;
@@ -19,6 +20,7 @@ export default function Search({ session }: Props) {
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[]>([]);
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
+  const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
   const spotifyApi = useSpotify(session);
 
   const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
@@ -56,7 +58,13 @@ export default function Search({ session }: Props) {
       spotifyApi.searchAlbums(searchValue).then((data) => {
         if (data.body.albums) {
           setAlbums(data.body.albums.items);
-          console.log(data.body.albums.items);
+        }
+      });
+    } else if (searchValue && songSearchSelected) {
+      spotifyApi.searchTracks(searchValue).then((data) => {
+        if (data.body.tracks) {
+          setSongs(data.body.tracks?.items);
+          console.log(data.body.tracks?.items);
         }
       });
     }
@@ -65,6 +73,8 @@ export default function Search({ session }: Props) {
   const handleClear = () => {
     setSearchValue("");
     setArtists([]);
+    setAlbums([]);
+    setSongs([]);
   };
 
   return (
@@ -140,6 +150,7 @@ export default function Search({ session }: Props) {
       {/** Search Results */}
       {artistSearchSelected && <ArtistSearch artists={artists} />}
       {albumSearchSelected && <AlbumSearch albums={albums} />}
+      {songSearchSelected && <SongSearch songs={songs} />}
     </div>
   );
 }
