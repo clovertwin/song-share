@@ -7,10 +7,12 @@ import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
 import Search from "../components/Search";
 import { artistComponentOpenState } from "../atoms/artistAtom";
-import Artist from "../components/Artist";
+import ArtistLayout from "../components/ArtistLayout";
 import { useEffect } from "react";
 import { albumComponentOpenState } from "../atoms/albumAtom";
-import Album from "../components/Album";
+import AlbumLayout from "../components/AlbumLayout";
+import { songComponentOpenState } from "../atoms/searchSelectedSong";
+import SongLayout from "../components/SongLayout";
 
 interface Props {
   session: Session | null;
@@ -24,12 +26,21 @@ export default function Home({ session }: Props) {
   const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
     albumComponentOpenState
   );
+  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
+    songComponentOpenState
+  );
 
   useEffect(() => {
     setSearchOpen(false);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
-  }, [setSearchOpen, setArtistComponentOpen, setAlbumComponentOpen]);
+    setSongComponentOpen(false);
+  }, [
+    setSearchOpen,
+    setArtistComponentOpen,
+    setAlbumComponentOpen,
+    setSongComponentOpen,
+  ]);
 
   return (
     <div className="bg-black h-screen overflow-hidden">
@@ -38,9 +49,11 @@ export default function Home({ session }: Props) {
         {searchOpen ? (
           <Search session={session} />
         ) : artistComponentOpen ? (
-          <Artist session={session} />
+          <ArtistLayout session={session} />
         ) : albumComponentOpen ? (
-          <Album session={session} />
+          <AlbumLayout session={session} />
+        ) : songComponentOpen ? (
+          <SongLayout session={session} />
         ) : (
           <Center session={session} />
         )}

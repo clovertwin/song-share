@@ -9,7 +9,7 @@ interface Props {
   session: Session | null;
 }
 
-export default function Album({ session }: Props) {
+export default function AlbumLayout({ session }: Props) {
   const albumId = useRecoilValue(selectedAlbumId);
   const [album, setAlbum] = useRecoilState(searchSelectedAlbumState);
   const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(

@@ -12,7 +12,7 @@ interface Props {
   session: Session | null;
 }
 
-export default function Artist({ session }: Props) {
+export default function ArtistLayout({ session }: Props) {
   const artistId = useRecoilValue(selectedArtistId);
   const [artist, setArtist] = useRecoilState(searchSelectedArtistState);
   const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
