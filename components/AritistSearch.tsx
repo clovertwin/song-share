@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   artistComponentOpenState,
   selectedArtistId,
@@ -12,11 +12,9 @@ interface Props {
 }
 
 export default function ArtistSearch({ artists }: Props) {
-  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
-    artistComponentOpenState
-  );
-  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
-  const [artistId, setArtistId] = useRecoilState(selectedArtistId);
+  const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
+  const setSearchOpen = useSetRecoilState(searchOpenState);
+  const setArtistId = useSetRecoilState(selectedArtistId);
 
   const handleSelect = (id: string) => {
     setArtistId(id);

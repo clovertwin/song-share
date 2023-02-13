@@ -1,7 +1,7 @@
 import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   searchSelectedSongState,
   songIdState,
@@ -15,13 +15,10 @@ interface Props {
 
 export default function SongLayout({ session }: Props) {
   const songId = useRecoilValue(songIdState);
-  const [isPlayimg, setIsPlaying] = useRecoilState(isPlayingState);
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState);
+  const setIsPlaying = useSetRecoilState(isPlayingState);
+  const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
   const [song, setSong] = useRecoilState(searchSelectedSongState);
-  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
-    songComponentOpenState
-  );
+  const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
   const spotifyApi = useSpotify(session);
 
   useEffect(() => {

@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { artistComponentOpenState } from "../atoms/artistAtom";
 import { playlistIdState } from "../atoms/playlistAtom";
@@ -24,14 +24,10 @@ export default function Sidebar({ session }: Props) {
   const [playlists, setPlaylists] = useState<
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
-  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+  const setPlaylistId = useSetRecoilState(playlistIdState);
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
-  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
-    artistComponentOpenState
-  );
-  const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
-    albumComponentOpenState
-  );
+  const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
+  const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {

@@ -2,7 +2,7 @@ import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
 import millisToMinutesAndSeconds from "../lib/millisToMinutesAndSeconds";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 
 interface Props {
@@ -13,9 +13,8 @@ interface Props {
 
 export default function Song({ track, order, session }: Props) {
   const spotifyApi = useSpotify(session);
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState);
-  const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
+  const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
+  const setIsPlaying = useSetRecoilState(isPlayingState);
 
   const playSong = () => {
     setCurrentTrackId(track.track?.id as string);

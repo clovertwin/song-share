@@ -1,7 +1,7 @@
 import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { searchSelectedArtistState } from "../atoms/searchSelectedArtist";
 import {
   artistComponentOpenState,
@@ -15,9 +15,7 @@ interface Props {
 export default function ArtistLayout({ session }: Props) {
   const artistId = useRecoilValue(selectedArtistId);
   const [artist, setArtist] = useRecoilState(searchSelectedArtistState);
-  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
-    artistComponentOpenState
-  );
+  const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const spotifyApi = useSpotify(session);
 
   useEffect(() => {

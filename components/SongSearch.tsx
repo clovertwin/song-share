@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   songComponentOpenState,
   songIdState,
@@ -12,11 +12,9 @@ interface Props {
 }
 
 export default function SongSearch({ songs }: Props) {
-  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
-    songComponentOpenState
-  );
-  const [songId, setSongId] = useRecoilState(songIdState);
-  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
+  const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
+  const setSongId = useSetRecoilState(songIdState);
+  const setSearchOpen = useSetRecoilState(searchOpenState);
 
   const handleSelect = (id: string) => {
     setSongId(id);
