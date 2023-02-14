@@ -21,7 +21,7 @@ export default function AlbumLayout({ session }: Props) {
         setAlbum(data.body);
       });
     }
-  }, [album, spotifyApi, setAlbum, albumId]);
+  }, [spotifyApi, setAlbum, albumId]);
 
   return (
     <div className="flex justify-center items-center w-full text-white">

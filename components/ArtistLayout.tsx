@@ -24,7 +24,7 @@ export default function ArtistLayout({ session }: Props) {
         setArtist(data.body);
       });
     }
-  }, [artist, spotifyApi, setArtist, artistId]);
+  }, [spotifyApi, setArtist, artistId]);
 
   return (
     <div className="flex justify-center items-center w-full text-white">

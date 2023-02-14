@@ -27,7 +27,7 @@ export default function SongLayout({ session }: Props) {
         setSong(data.body);
       });
     }
-  }, [song, spotifyApi, setSong, songId]);
+  }, [spotifyApi, setSong, songId]);
 
   const handlePlaySong = () => {
     setCurrentTrackId(song.id);
