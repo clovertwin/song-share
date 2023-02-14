@@ -14,3 +14,8 @@ export const songIdState = atom({
   key: "songIdState",
   default: "",
 });
+
+export const songSearchOpenState = atom({
+  key: "songSearchOpenState",
+  default: false,
+});

@@ -4,8 +4,8 @@ import { useSetRecoilState } from "recoil";
 import {
   songComponentOpenState,
   songIdState,
+  songSearchOpenState,
 } from "../atoms/searchSelectedSong";
-import { searchOpenState } from "../atoms/searchAtom";
 
 interface Props {
   songs: SpotifyApi.TrackObjectFull[];
@@ -14,12 +14,12 @@ interface Props {
 export default function SongSearch({ songs }: Props) {
   const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
   const setSongId = useSetRecoilState(songIdState);
-  const setSearchOpen = useSetRecoilState(searchOpenState);
+  const setSongSearchOpen = useSetRecoilState(songSearchOpenState);
 
   const handleSelect = (id: string) => {
     setSongId(id);
     setSongComponentOpen(true);
-    setSearchOpen(false);
+    setSongSearchOpen(false);
   };
 
   return (

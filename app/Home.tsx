@@ -48,13 +48,13 @@ export default function Home({ session }: Props) {
         <Sidebar session={session} />
         {searchOpen ? (
           <Search session={session} />
-        ) : artistComponentOpen ? (
-          <ArtistLayout session={session} />
-        ) : albumComponentOpen ? (
-          <AlbumLayout session={session} />
-        ) : songComponentOpen ? (
-          <SongLayout session={session} />
         ) : (
+          // ) : artistComponentOpen ? (
+          //   <ArtistLayout session={session} />
+          // ) : albumComponentOpen ? (
+          //   <AlbumLayout session={session} />
+          // ) : songComponentOpen ? (
+          //   <SongLayout session={session} />
           <Center session={session} />
         )}
       </main>

@@ -5,7 +5,7 @@ import {
   artistComponentOpenState,
   selectedArtistId,
 } from "../atoms/artistAtom";
-import { searchOpenState } from "../atoms/searchAtom";
+import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
 
 interface Props {
   artists: SpotifyApi.ArtistObjectFull[];
@@ -13,13 +13,13 @@ interface Props {
 
 export default function ArtistSearch({ artists }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
-  const setSearchOpen = useSetRecoilState(searchOpenState);
   const setArtistId = useSetRecoilState(selectedArtistId);
+  const setArtistSearchOpen = useSetRecoilState(artistSearchOpenState);
 
   const handleSelect = (id: string) => {
     setArtistId(id);
     setArtistComponentOpen(true);
-    setSearchOpen(false);
+    setArtistSearchOpen(false);
   };
 
   return (
@@ -28,7 +28,6 @@ export default function ArtistSearch({ artists }: Props) {
         artists.map((artist: SpotifyApi.ArtistObjectFull) => (
           <div
             onClick={() => handleSelect(artist.id)}
-            // href={`/artist?id=${artist.id}`}
             key={artist.id}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >

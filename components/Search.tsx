@@ -7,6 +7,17 @@ import { Session } from "next-auth";
 import ArtistSearch from "./AritistSearch";
 import AlbumSearch from "./AlbumSearch";
 import SongSearch from "./SongSearch";
+import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
+import ArtistLayout from "./ArtistLayout";
+import { artistComponentOpenState } from "../atoms/artistAtom";
+import { albumSearchOpenState } from "../atoms/searchSelectedAlbum";
+import { albumComponentOpenState } from "../atoms/albumAtom";
+import AlbumLayout from "./AlbumLayout";
+import {
+  songComponentOpenState,
+  songSearchOpenState,
+} from "../atoms/searchSelectedSong";
+import SongLayout from "./SongLayout";
 
 interface Props {
   session: Session | null;
@@ -18,6 +29,22 @@ export default function Search({ session }: Props) {
   const [albumSearchSelected, setAlbumSearchSelected] = useState(false);
   const [songSearchSelected, setSongSearchSelected] = useState(false);
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
+  const [artistSearchOpen, setArtistSearchOpen] = useRecoilState(
+    artistSearchOpenState
+  );
+  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
+    artistComponentOpenState
+  );
+  const [albumCompoentOpen, setAlbumComponentOpen] = useRecoilState(
+    albumComponentOpenState
+  );
+  const [albumSearchOpen, setAlbumSearchOpen] =
+    useRecoilState(albumSearchOpenState);
+  const [songSearchOpen, setSongSearchOpen] =
+    useRecoilState(songSearchOpenState);
+  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
+    songComponentOpenState
+  );
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[]>([]);
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
@@ -59,18 +86,21 @@ export default function Search({ session }: Props) {
           setArtists(data.body.artists.items);
         }
       });
+      setArtistSearchOpen(true);
     } else if (searchValue && albumSearchSelected) {
       spotifyApi.searchAlbums(searchValue).then((data) => {
         if (data.body.albums) {
           setAlbums(data.body.albums.items);
         }
       });
+      setAlbumSearchOpen(true);
     } else if (searchValue && songSearchSelected) {
       spotifyApi.searchTracks(searchValue).then((data) => {
         if (data.body.tracks) {
           setSongs(data.body.tracks?.items);
         }
       });
+      setSongSearchOpen(true);
     }
   };
 
@@ -79,6 +109,9 @@ export default function Search({ session }: Props) {
     setArtists([]);
     setAlbums([]);
     setSongs([]);
+    setArtistComponentOpen(false);
+    setAlbumComponentOpen(false);
+    setSongComponentOpen(false);
   };
 
   return (
@@ -159,9 +192,21 @@ export default function Search({ session }: Props) {
         </div>
       </div>
       {/** Search Results */}
-      {artistSearchSelected && <ArtistSearch artists={artists} />}
-      {albumSearchSelected && <AlbumSearch albums={albums} />}
-      {songSearchSelected && <SongSearch songs={songs} />}
+      {artistSearchSelected && artistSearchOpen ? (
+        <ArtistSearch artists={artists} />
+      ) : artistSearchSelected && artistComponentOpen ? (
+        <ArtistLayout session={session} />
+      ) : null}
+      {albumSearchSelected && albumSearchOpen ? (
+        <AlbumSearch albums={albums} />
+      ) : albumSearchSelected && albumCompoentOpen ? (
+        <AlbumLayout session={session} />
+      ) : null}
+      {songSearchSelected && songSearchOpen ? (
+        <SongSearch songs={songs} />
+      ) : songSearchSelected && songComponentOpen ? (
+        <SongLayout session={session} />
+      ) : null}
     </div>
   );
 }

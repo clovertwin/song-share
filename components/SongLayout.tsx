@@ -38,7 +38,7 @@ export default function SongLayout({ session }: Props) {
   };
 
   return (
-    <div className="flex justify-center items-center w-full text-white">
+    <div className="flex justify-center items-center w-full h-full pb-36 text-white">
       <button onClick={handlePlaySong} className="pr-10">
         {song.name}
       </button>

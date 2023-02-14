@@ -2,7 +2,7 @@ import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useSetRecoilState } from "recoil";
 import { albumComponentOpenState, selectedAlbumId } from "../atoms/albumAtom";
-import { searchOpenState } from "../atoms/searchAtom";
+import { albumSearchOpenState } from "../atoms/searchSelectedAlbum";
 
 interface Props {
   albums: SpotifyApi.AlbumObjectSimplified[];
@@ -10,13 +10,13 @@ interface Props {
 
 export default function AlbumSearch({ albums }: Props) {
   const setAlbumId = useSetRecoilState(selectedAlbumId);
-  const setSearchOpen = useSetRecoilState(searchOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
+  const setAlbumSearchOpen = useSetRecoilState(albumSearchOpenState);
 
   const handleSelect = (id: string) => {
     setAlbumId(id);
     setAlbumComponentOpen(true);
-    setSearchOpen(false);
+    setAlbumSearchOpen(false);
   };
 
   return (

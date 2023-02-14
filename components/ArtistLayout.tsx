@@ -27,7 +27,7 @@ export default function ArtistLayout({ session }: Props) {
   }, [spotifyApi, setArtist, artistId]);
 
   return (
-    <div className="flex justify-center items-center w-full text-white">
+    <div className="flex justify-center items-center h-full w-full pb-36 text-white">
       <h1 className="pr-10">{artist.name}</h1>
       <button
         onClick={() => setArtistComponentOpen(false)}
