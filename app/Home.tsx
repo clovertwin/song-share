@@ -4,15 +4,12 @@ import Center from "../components/Center";
 import Sidebar from "../components/Sidebar";
 import Player from "../components/Player";
 import { searchOpenState } from "../atoms/searchAtom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import Search from "../components/Search";
 import { artistComponentOpenState } from "../atoms/artistAtom";
-import ArtistLayout from "../components/ArtistLayout";
 import { useEffect } from "react";
 import { albumComponentOpenState } from "../atoms/albumAtom";
-import AlbumLayout from "../components/AlbumLayout";
 import { songComponentOpenState } from "../atoms/searchSelectedSong";
-import SongLayout from "../components/SongLayout";
 
 interface Props {
   session: Session | null;
@@ -20,15 +17,9 @@ interface Props {
 
 export default function Home({ session }: Props) {
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
-  const [artistComponentOpen, setArtistComponentOpen] = useRecoilState(
-    artistComponentOpenState
-  );
-  const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
-    albumComponentOpenState
-  );
-  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
-    songComponentOpenState
-  );
+  const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
+  const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
+  const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
 
   useEffect(() => {
     setSearchOpen(false);
