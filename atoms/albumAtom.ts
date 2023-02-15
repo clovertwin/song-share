@@ -5,7 +5,7 @@ export const albumComponentOpenState = atom({
   default: false,
 });
 
-export const selectedAlbumId = atom({
+export const selectedAlbumIdState = atom({
   key: "selectedAlbumIdState",
   default: "",
 });

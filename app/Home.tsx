@@ -1,6 +1,6 @@
 "use client";
 import { Session } from "next-auth";
-import Center from "../components/Center";
+import PlaylistLayout from "../components/PlaylistLayout";
 import Sidebar from "../components/Sidebar";
 import Player from "../components/Player";
 import { searchOpenState } from "../atoms/searchAtom";
@@ -40,7 +40,7 @@ export default function Home({ session }: Props) {
         {searchOpen ? (
           <Search session={session} />
         ) : (
-          <Center session={session} />
+          <PlaylistLayout session={session} />
         )}
       </main>
       <div className="sticky bottom-0">

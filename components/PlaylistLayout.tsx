@@ -33,7 +33,7 @@ function randomColor(arr: string[]) {
   return arrCopy.pop();
 }
 
-export default function Center({ session }: Props) {
+export default function PlaylistLayout({ session }: Props) {
   const spotifyApi = useSpotify(session);
   const [color, setColor] = useState<string | null | undefined>(null);
   const playlistId = useRecoilValue(playlistIdState);

@@ -3,14 +3,17 @@ import useSpotify from "../hooks/useSpotify";
 import { useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { searchSelectedAlbumState } from "../atoms/searchSelectedAlbum";
-import { albumComponentOpenState, selectedAlbumId } from "../atoms/albumAtom";
+import {
+  albumComponentOpenState,
+  selectedAlbumIdState,
+} from "../atoms/albumAtom";
 
 interface Props {
   session: Session | null;
 }
 
 export default function AlbumLayout({ session }: Props) {
-  const albumId = useRecoilValue(selectedAlbumId);
+  const albumId = useRecoilValue(selectedAlbumIdState);
   const [album, setAlbum] = useRecoilState(searchSelectedAlbumState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const spotifyApi = useSpotify(session);

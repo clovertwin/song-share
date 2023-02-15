@@ -7,6 +7,7 @@ import { Session } from "next-auth";
 import ArtistSearch from "./AritistSearch";
 import AlbumSearch from "./AlbumSearch";
 import SongSearch from "./SongSearch";
+import ShowSearch from "./ShowSearch";
 import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
 import ArtistLayout from "./ArtistLayout";
 import { artistComponentOpenState } from "../atoms/artistAtom";
@@ -18,6 +19,9 @@ import {
   songSearchOpenState,
 } from "../atoms/searchSelectedSong";
 import SongLayout from "./SongLayout";
+import ShowLayout from "./ShowLayout";
+import { showComponentOpenState } from "../atoms/showAtom";
+import { showSearchOpenState } from "../atoms/searchSelectedShow";
 
 interface Props {
   session: Session | null;
@@ -28,6 +32,7 @@ export default function Search({ session }: Props) {
   const [artistSearchSelected, setArtistSearchSelected] = useState(true);
   const [albumSearchSelected, setAlbumSearchSelected] = useState(false);
   const [songSearchSelected, setSongSearchSelected] = useState(false);
+  const [showSearchSelected, setShowSearchSelected] = useState(false);
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
   const [artistSearchOpen, setArtistSearchOpen] = useRecoilState(
     artistSearchOpenState
@@ -45,9 +50,15 @@ export default function Search({ session }: Props) {
   const [songComponentOpen, setSongComponentOpen] = useRecoilState(
     songComponentOpenState
   );
+  const [showComponentOpen, setShowComponentOpen] = useRecoilState(
+    showComponentOpenState
+  );
+  const [showSearchOpen, setShowSearchOpen] =
+    useRecoilState(showSearchOpenState);
   const [artists, setArtists] = useState<SpotifyApi.ArtistObjectFull[]>([]);
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
+  const [shows, setShows] = useState<SpotifyApi.ShowObjectSimplified[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const spotifyApi = useSpotify(session);
 
@@ -55,27 +66,39 @@ export default function Search({ session }: Props) {
     inputRef.current?.focus();
   }, []);
 
-  const handleSearchTypeSelect = (type: "artist" | "album" | "song") => {
+  const handleSearchTypeSelect = (
+    type: "artist" | "album" | "song" | "show"
+  ) => {
     switch (type) {
       case "artist":
         setArtistSearchSelected(true);
         setAlbumSearchSelected(false);
         setSongSearchSelected(false);
+        setShowSearchSelected(false);
         break;
       case "album":
         setArtistSearchSelected(false);
         setAlbumSearchSelected(true);
         setSongSearchSelected(false);
+        setShowSearchSelected(false);
         break;
       case "song":
         setArtistSearchSelected(false);
         setAlbumSearchSelected(false);
         setSongSearchSelected(true);
+        setShowSearchSelected(false);
+        break;
+      case "show":
+        setArtistSearchSelected(false);
+        setAlbumSearchSelected(false);
+        setSongSearchSelected(false);
+        setShowSearchSelected(true);
         break;
       default:
         setArtistSearchSelected(true);
         setAlbumSearchSelected(false);
         setSongSearchSelected(false);
+        setShowSearchSelected(false);
     }
   };
 
@@ -101,6 +124,13 @@ export default function Search({ session }: Props) {
         }
       });
       setSongSearchOpen(true);
+    } else if (searchValue && showSearchSelected) {
+      spotifyApi.searchShows(searchValue).then((data) => {
+        if (data.body.shows) {
+          setShows(data.body.shows?.items);
+        }
+      });
+      setShowSearchOpen(true);
     }
   };
 
@@ -112,6 +142,7 @@ export default function Search({ session }: Props) {
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setSongComponentOpen(false);
+    setShowComponentOpen(false);
   };
 
   return (
@@ -133,6 +164,8 @@ export default function Search({ session }: Props) {
                   ? "albums"
                   : songSearchSelected
                   ? "songs"
+                  : showSearchSelected
+                  ? "shows"
                   : "artists"
               }..`}
               autoComplete="off"
@@ -189,6 +222,16 @@ export default function Search({ session }: Props) {
           >
             Songs
           </button>
+          <button
+            onClick={() => handleSearchTypeSelect("show")}
+            className={`border-2 ${
+              showSearchSelected
+                ? `border-gray-700 text-white`
+                : `border-gray-800 text-gray-500`
+            } rounded-md py-1 px-5 text-sm 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+          >
+            Shows
+          </button>
         </div>
       </div>
       {/** Search Results */}
@@ -206,6 +249,11 @@ export default function Search({ session }: Props) {
         <SongSearch songs={songs} />
       ) : songSearchSelected && songComponentOpen ? (
         <SongLayout session={session} />
+      ) : null}
+      {showSearchSelected && showSearchOpen ? (
+        <ShowSearch shows={shows} />
+      ) : showSearchSelected && showComponentOpen ? (
+        <ShowLayout session={session} />
       ) : null}
     </div>
   );

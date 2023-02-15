@@ -1,7 +1,10 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useSetRecoilState } from "recoil";
-import { albumComponentOpenState, selectedAlbumId } from "../atoms/albumAtom";
+import {
+  albumComponentOpenState,
+  selectedAlbumIdState,
+} from "../atoms/albumAtom";
 import { albumSearchOpenState } from "../atoms/searchSelectedAlbum";
 
 interface Props {
@@ -9,7 +12,7 @@ interface Props {
 }
 
 export default function AlbumSearch({ albums }: Props) {
-  const setAlbumId = useSetRecoilState(selectedAlbumId);
+  const setAlbumId = useSetRecoilState(selectedAlbumIdState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setAlbumSearchOpen = useSetRecoilState(albumSearchOpenState);
 
