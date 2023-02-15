@@ -10,6 +10,7 @@ import { artistComponentOpenState } from "../atoms/artistAtom";
 import { useEffect } from "react";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { songComponentOpenState } from "../atoms/searchSelectedSong";
+import { showComponentOpenState } from "../atoms/showAtom";
 
 interface Props {
   session: Session | null;
@@ -20,17 +21,20 @@ export default function Home({ session }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
+  const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
 
   useEffect(() => {
     setSearchOpen(false);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setSongComponentOpen(false);
+    setShowComponentOpen(false);
   }, [
     setSearchOpen,
     setArtistComponentOpen,
     setAlbumComponentOpen,
     setSongComponentOpen,
+    setShowComponentOpen,
   ]);
 
   return (
