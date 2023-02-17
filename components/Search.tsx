@@ -59,6 +59,7 @@ export default function Search({ session }: Props) {
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
   const [shows, setShows] = useState<SpotifyApi.ShowObjectSimplified[]>([]);
+  const [nextShows, setNextShows] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const spotifyApi = useSpotify(session);
 
@@ -102,6 +103,21 @@ export default function Search({ session }: Props) {
     }
   };
 
+  const fetchMore = (next: string) => {
+    fetch(next, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
+        Host: "api.spotify.com",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setShows((prev) => [...prev, ...data.shows?.items]);
+        setNextShows(data.shows?.next);
+      });
+  };
+
   const handleSearch = () => {
     if (searchValue && artistSearchSelected) {
       spotifyApi.searchArtists(searchValue).then((data) => {
@@ -128,6 +144,9 @@ export default function Search({ session }: Props) {
       spotifyApi.searchShows(searchValue).then((data) => {
         if (data.body.shows) {
           setShows(data.body.shows?.items);
+          if (data.body.shows.next) {
+            setNextShows(data.body.shows.next);
+          }
         }
       });
       setShowSearchOpen(true);
@@ -139,6 +158,7 @@ export default function Search({ session }: Props) {
     setArtists([]);
     setAlbums([]);
     setSongs([]);
+    setShows([]);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setSongComponentOpen(false);
@@ -146,9 +166,9 @@ export default function Search({ session }: Props) {
   };
 
   return (
-    <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-36">
+    <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-32">
       {/** Search Bar */}
-      <div className="sticky top-0 flex flex-col py-10 px-10 bg-black lg:px-52">
+      <div className="sticky top-0 flex flex-col pt-10 pb-5 px-10 bg-black lg:px-52">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
           <div className="flex justify-center pr-5">
             <input
@@ -251,7 +271,7 @@ export default function Search({ session }: Props) {
         <SongLayout session={session} />
       ) : null}
       {showSearchSelected && showSearchOpen ? (
-        <ShowSearch shows={shows} />
+        <ShowSearch shows={shows} fetchMore={fetchMore} nextShows={nextShows} />
       ) : showSearchSelected && showComponentOpen ? (
         <ShowLayout session={session} />
       ) : null}
