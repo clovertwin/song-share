@@ -59,7 +59,7 @@ export default function Search({ session }: Props) {
   const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[]>([]);
   const [songs, setSongs] = useState<SpotifyApi.TrackObjectFull[]>([]);
   const [shows, setShows] = useState<SpotifyApi.ShowObjectSimplified[]>([]);
-  const [nextShows, setNextShows] = useState("");
+  const [next, setNext] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const spotifyApi = useSpotify(session);
 
@@ -113,8 +113,19 @@ export default function Search({ session }: Props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        setShows((prev) => [...prev, ...data.shows?.items]);
-        setNextShows(data.shows?.next);
+        if (data.artists) {
+          setArtists((prev) => [...prev, ...data.artists?.items]);
+          setNext(data.artists?.next);
+        } else if (data.albums) {
+          setAlbums((prev) => [...prev, ...data.albums?.items]);
+          setNext(data.albums?.next);
+        } else if (data.tracks) {
+          setSongs((prev) => [...prev, ...data.tracks?.items]);
+          setNext(data.tracks?.next);
+        } else if (data.shows) {
+          setShows((prev) => [...prev, ...data.shows?.items]);
+          setNext(data.shows?.next);
+        }
       });
   };
 
@@ -123,6 +134,9 @@ export default function Search({ session }: Props) {
       spotifyApi.searchArtists(searchValue).then((data) => {
         if (data.body.artists) {
           setArtists(data.body.artists.items);
+          if (data.body.artists.next) {
+            setNext(data.body.artists.next);
+          }
         }
       });
       setArtistSearchOpen(true);
@@ -130,6 +144,9 @@ export default function Search({ session }: Props) {
       spotifyApi.searchAlbums(searchValue).then((data) => {
         if (data.body.albums) {
           setAlbums(data.body.albums.items);
+          if (data.body.albums.next) {
+            setNext(data.body.albums.next);
+          }
         }
       });
       setAlbumSearchOpen(true);
@@ -137,6 +154,9 @@ export default function Search({ session }: Props) {
       spotifyApi.searchTracks(searchValue).then((data) => {
         if (data.body.tracks) {
           setSongs(data.body.tracks?.items);
+          if (data.body.tracks.next) {
+            setNext(data.body.tracks.next);
+          }
         }
       });
       setSongSearchOpen(true);
@@ -145,7 +165,7 @@ export default function Search({ session }: Props) {
         if (data.body.shows) {
           setShows(data.body.shows?.items);
           if (data.body.shows.next) {
-            setNextShows(data.body.shows.next);
+            setNext(data.body.shows.next);
           }
         }
       });
@@ -256,22 +276,22 @@ export default function Search({ session }: Props) {
       </div>
       {/** Search Results */}
       {artistSearchSelected && artistSearchOpen ? (
-        <ArtistSearch artists={artists} />
+        <ArtistSearch artists={artists} fetchMore={fetchMore} next={next} />
       ) : artistSearchSelected && artistComponentOpen ? (
         <ArtistLayout session={session} />
       ) : null}
       {albumSearchSelected && albumSearchOpen ? (
-        <AlbumSearch albums={albums} />
+        <AlbumSearch albums={albums} fetchMore={fetchMore} next={next} />
       ) : albumSearchSelected && albumCompoentOpen ? (
         <AlbumLayout session={session} />
       ) : null}
       {songSearchSelected && songSearchOpen ? (
-        <SongSearch songs={songs} />
+        <SongSearch songs={songs} fetchMore={fetchMore} next={next} />
       ) : songSearchSelected && songComponentOpen ? (
         <SongLayout session={session} />
       ) : null}
       {showSearchSelected && showSearchOpen ? (
-        <ShowSearch shows={shows} fetchMore={fetchMore} nextShows={nextShows} />
+        <ShowSearch shows={shows} fetchMore={fetchMore} next={next} />
       ) : showSearchSelected && showComponentOpen ? (
         <ShowLayout session={session} />
       ) : null}
