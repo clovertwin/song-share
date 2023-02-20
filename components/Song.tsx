@@ -2,7 +2,7 @@ import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
 import Image from "next/image";
 import millisToMinutesAndSeconds from "../lib/millisToMinutesAndSeconds";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
 
 interface Props {

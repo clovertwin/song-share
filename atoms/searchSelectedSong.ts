@@ -5,16 +5,6 @@ export const searchSelectedSongState = atom({
   default: {} as SpotifyApi.TrackObjectFull,
 });
 
-export const songComponentOpenState = atom({
-  key: "songComponentOpenState",
-  default: false,
-});
-
-export const songIdState = atom({
-  key: "songIdState",
-  default: "",
-});
-
 export const songSearchOpenState = atom({
   key: "songSearchOpenState",
   default: false,

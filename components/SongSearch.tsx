@@ -1,28 +1,28 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useSetRecoilState } from "recoil";
-import {
-  songComponentOpenState,
-  songIdState,
-  songSearchOpenState,
-} from "../atoms/searchSelectedSong";
+import useSpotify from "../hooks/useSpotify";
+import { currentTrackIdState } from "../atoms/songAtom";
+import { isPlayingState } from "../atoms/songAtom";
+import { Session } from "next-auth";
 import { nanoid } from "nanoid";
 
 interface Props {
+  session: Session | null;
   songs: SpotifyApi.TrackObjectFull[];
   fetchMore: (next: string) => void;
   next: string;
 }
 
-export default function SongSearch({ songs, fetchMore, next }: Props) {
-  const setSongComponentOpen = useSetRecoilState(songComponentOpenState);
-  const setSongId = useSetRecoilState(songIdState);
-  const setSongSearchOpen = useSetRecoilState(songSearchOpenState);
+export default function SongSearch({ session, songs, fetchMore, next }: Props) {
+  const spotifyApi = useSpotify(session);
+  const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
+  const setIsPlaying = useSetRecoilState(isPlayingState);
 
-  const handleSelect = (id: string) => {
-    setSongId(id);
-    setSongComponentOpen(true);
-    setSongSearchOpen(false);
+  const handlePlaySong = (uri: string, id: string) => {
+    setCurrentTrackId(id);
+    setIsPlaying(true);
+    spotifyApi.play({ uris: [uri] });
   };
 
   return (
@@ -30,7 +30,7 @@ export default function SongSearch({ songs, fetchMore, next }: Props) {
       {songs.length > 0 &&
         songs.map((song, i) => (
           <div
-            onClick={() => handleSelect(song.id)}
+            onClick={() => handlePlaySong(song.uri, song.id)}
             key={nanoid()}
             className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
           >

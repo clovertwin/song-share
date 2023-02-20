@@ -14,11 +14,7 @@ import { artistComponentOpenState } from "../atoms/artistAtom";
 import { albumSearchOpenState } from "../atoms/searchSelectedAlbum";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import AlbumLayout from "./AlbumLayout";
-import {
-  songComponentOpenState,
-  songSearchOpenState,
-} from "../atoms/searchSelectedSong";
-import SongLayout from "./SongLayout";
+import { songSearchOpenState } from "../atoms/searchSelectedSong";
 import ShowLayout from "./ShowLayout";
 import { showComponentOpenState } from "../atoms/showAtom";
 import { showSearchOpenState } from "../atoms/searchSelectedShow";
@@ -47,9 +43,6 @@ export default function Search({ session }: Props) {
     useRecoilState(albumSearchOpenState);
   const [songSearchOpen, setSongSearchOpen] =
     useRecoilState(songSearchOpenState);
-  const [songComponentOpen, setSongComponentOpen] = useRecoilState(
-    songComponentOpenState
-  );
   const [showComponentOpen, setShowComponentOpen] = useRecoilState(
     showComponentOpenState
   );
@@ -181,7 +174,6 @@ export default function Search({ session }: Props) {
     setShows([]);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
-    setSongComponentOpen(false);
     setShowComponentOpen(false);
   };
 
@@ -286,9 +278,12 @@ export default function Search({ session }: Props) {
         <AlbumLayout session={session} />
       ) : null}
       {songSearchSelected && songSearchOpen ? (
-        <SongSearch songs={songs} fetchMore={fetchMore} next={next} />
-      ) : songSearchSelected && songComponentOpen ? (
-        <SongLayout session={session} />
+        <SongSearch
+          session={session}
+          songs={songs}
+          fetchMore={fetchMore}
+          next={next}
+        />
       ) : null}
       {showSearchSelected && showSearchOpen ? (
         <ShowSearch shows={shows} fetchMore={fetchMore} next={next} />
