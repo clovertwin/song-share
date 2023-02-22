@@ -26,7 +26,7 @@ export default function Song({ track, order, session }: Props) {
 
   return (
     <div
-      className="grid grid-cols-2 py-4 px-5 text-gray-500 rounded-lg cursor-pointer hover:bg-gray-900"
+      className="grid grid-cols-2 py-4 px-5 text-gray-500 rounded-lg hover:cursor-pointer hover:bg-gray-900"
       onClick={playSong}
     >
       <div className="flex items-center space-x-4">

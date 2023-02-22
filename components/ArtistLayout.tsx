@@ -1,12 +1,15 @@
 import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
 import { selectedArtistId } from "../atoms/artistAtom";
 import Image from "next/image";
 import { nanoid } from "nanoid";
 import AlbumLayout from "./AlbumLayout";
-import { albumComponentOpenState } from "../atoms/albumAtom";
+import {
+  albumComponentOpenState,
+  selectedAlbumIdState,
+} from "../atoms/albumAtom";
 import { searchSelectedAlbumState } from "../atoms/searchSelectedAlbum";
 
 interface Props {
@@ -23,7 +26,7 @@ export default function ArtistLayout({ session }: Props) {
   const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
     albumComponentOpenState
   );
-  const [album, setAlbum] = useRecoilState(searchSelectedAlbumState);
+  const setAlbumId = useSetRecoilState(selectedAlbumIdState);
   const artistId = useRecoilValue(selectedArtistId);
   const spotifyApi = useSpotify(session);
 
@@ -43,7 +46,7 @@ export default function ArtistLayout({ session }: Props) {
   }, [spotifyApi, setArtist, artistId]);
 
   useEffect(() => {
-    return setAlbumComponentOpen(false);
+    return () => setAlbumComponentOpen(false);
   }, [setAlbumComponentOpen]);
 
   const fetchMore = (next: string) => {
@@ -83,7 +86,9 @@ export default function ArtistLayout({ session }: Props) {
                 </div>
               )}
               <div>
-                <h1 className="pr-10 font-bold text-5xl">{artist?.name}</h1>
+                <h1 className="pr-10 pb-2 font-bold text-5xl">
+                  {artist?.name}
+                </h1>
                 <p className="text-lg text-gray-500">
                   Followers: {artist?.followers.total}
                 </p>
@@ -97,7 +102,7 @@ export default function ArtistLayout({ session }: Props) {
                     key={nanoid()}
                     className="flex items-center space-x-4 py-4 px-5 rounded-lg hover:cursor-pointer hover:bg-gray-900"
                     onClick={() => {
-                      setAlbum(album);
+                      setAlbumId(album.id);
                       setAlbumComponentOpen(true);
                     }}
                   >
