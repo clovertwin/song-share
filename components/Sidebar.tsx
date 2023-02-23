@@ -2,9 +2,6 @@ import {
   HomeIcon,
   MagnifyingGlassIcon,
   BuildingLibraryIcon,
-  PlusCircleIcon,
-  HeartIcon,
-  RssIcon,
 } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
@@ -68,20 +65,6 @@ export default function Sidebar({ session }: Props) {
           <p>Library</p>
         </button>
         <hr className="border-t-[0.1px] border-gray-900" />
-        {/* <button className="flex items-center space-x-2 hover:text-white">
-          <PlusCircleIcon className="h-5 w-5" />
-          <p>CreatePlaylist</p>
-        </button>
-        <button className="flex items-center space-x-2 hover:text-white">
-          <HeartIcon className="h-5 w-5" />
-          <p>Liked Songs</p>
-        </button>
-        <button className="flex items-center space-x-2 hover:text-white">
-          <RssIcon className="h-5 w-5" />
-          <p>Your Episodes</p>
-        </button>
-        <hr className="border-t-[0.1px] border-gray-900" /> */}
-
         {/* Playlists */}
         {playlists.map((playlist) => (
           <p
