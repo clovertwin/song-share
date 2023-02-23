@@ -50,21 +50,23 @@ export default function AlbumLayout({ session }: Props) {
       >
         Back
       </ArrowLeftCircleIcon>
-      <div className="flex items-end space-x-10 pb-5">
-        <Image
-          alt={`${album.name} cover art`}
-          src={album.images[0].url}
-          height={album.images[0].height}
-          width={album.images[0].width}
-          className="w-40 h-40"
-        />
-        <div>
-          <h1 className="pr-10 text-2xl font-bold truncate">{album.name}</h1>
-          <p className="text-gray-500 text-lg">
-            {album.release_date.split("-")[0]}
-          </p>
+      {album.images && (
+        <div className="flex items-end space-x-10 pb-5">
+          <Image
+            alt={`${album.name} cover art`}
+            src={album.images[0].url}
+            height={album.images[0].height}
+            width={album.images[0].width}
+            className="w-40 h-40"
+          />
+          <div>
+            <h1 className="pr-10 text-2xl font-bold truncate">{album.name}</h1>
+            <p className="text-gray-500 text-lg">
+              {album.release_date.split("-")[0]}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
       {tracks.map((track, i) => (
         <div
           key={i}
