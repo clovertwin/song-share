@@ -2,7 +2,10 @@ import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { searchSelectedAlbumState } from "../atoms/searchSelectedAlbum";
+import {
+  albumSearchOpenState,
+  searchSelectedAlbumState,
+} from "../atoms/searchSelectedAlbum";
 import {
   albumComponentOpenState,
   selectedAlbumIdState,
@@ -20,9 +23,12 @@ export default function AlbumLayout({ session }: Props) {
   const albumId = useRecoilValue(selectedAlbumIdState);
   const [album, setAlbum] = useRecoilState(searchSelectedAlbumState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
+  const setAlbumSearchOpen = useSetRecoilState(albumSearchOpenState);
   const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
   const setIsPlaying = useSetRecoilState(isPlayingState);
   const [tracks, setTracks] = useState<SpotifyApi.TrackObjectSimplified[]>([]);
+  const [next, setNext] = useState("");
+  const [loadMore, setLoadMore] = useState(false);
   const spotifyApi = useSpotify(session);
 
   useEffect(() => {
@@ -32,6 +38,10 @@ export default function AlbumLayout({ session }: Props) {
       });
       spotifyApi.getAlbumTracks(albumId).then((data) => {
         setTracks(data.body.items);
+        if (data.body.next) {
+          setNext(data.body.next);
+          setLoadMore(true);
+        }
       });
     }
   }, [spotifyApi, setAlbum, albumId]);
@@ -42,10 +52,33 @@ export default function AlbumLayout({ session }: Props) {
     spotifyApi.play({ uris: [uri] });
   };
 
+  const fetchMore = (next: string) => {
+    fetch(next, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
+        Host: "api.spotify.com",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setTracks((prev) => [...prev, ...data.items]);
+        if (data.next) {
+          setNext(data.next);
+          setLoadMore(true);
+        } else {
+          setLoadMore(false);
+        }
+      });
+  };
+
   return (
     <div className="px-8">
       <ArrowLeftCircleIcon
-        onClick={() => setAlbumComponentOpen(false)}
+        onClick={() => {
+          setAlbumComponentOpen(false);
+          setAlbumSearchOpen(true);
+        }}
         className="text-gray-500 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
       >
         Back
@@ -75,15 +108,23 @@ export default function AlbumLayout({ session }: Props) {
         >
           <div className="flex space-x-5">
             <p className="text-gray-500">{i + 1}</p>
-            <h3 className="w-52 truncate pr-4 sm:w-80 md:w-full">
-              {track.name}
-            </h3>
+            <h3 className="w-52 truncate pr-4 sm:w-80">{track.name}</h3>
           </div>
           <p className="text-gray-500">
             {millisToMinutesAndSeconds(track.duration_ms)}
           </p>
         </div>
       ))}
+      {loadMore ? (
+        <div className="flex justify-center">
+          <button
+            onClick={() => fetchMore(next)}
+            className="rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
+          >
+            Load more...
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
