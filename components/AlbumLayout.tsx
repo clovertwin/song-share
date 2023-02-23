@@ -70,12 +70,14 @@ export default function AlbumLayout({ session }: Props) {
       {tracks.map((track, i) => (
         <div
           key={i}
-          className="flex justify-between items-center py-4 px-5 rounded-lg hover:cursor-pointer hover:bg-gray-900"
+          className="flex justify-between items-center py-4 rounded-lg hover:cursor-pointer hover:bg-gray-900 sm:px-5"
           onClick={() => handlePlaySong(track.uri, track.id)}
         >
           <div className="flex space-x-5">
             <p className="text-gray-500">{i + 1}</p>
-            <h3>{track.name}</h3>
+            <h3 className="w-52 truncate pr-4 sm:w-80 md:w-full">
+              {track.name}
+            </h3>
           </div>
           <p className="text-gray-500">
             {millisToMinutesAndSeconds(track.duration_ms)}

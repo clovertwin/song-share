@@ -49,7 +49,10 @@ export default function Sidebar({ session }: Props) {
   return (
     <div className="hidden text-gray-500 p-5 pb-36 text-xs border-r-gray-900 overflow-y-scroll scrollbar-hide h-screen sm:max-w-[12rem] md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="space-y-4">
-        <button className="flex items-center space-x-2 hover:text-white">
+        <button
+          onClick={() => setSearchOpen(false)}
+          className="flex items-center space-x-2 hover:text-white"
+        >
           <HomeIcon className="h-5 w-5" />
           <p>Home</p>
         </button>
@@ -62,10 +65,10 @@ export default function Sidebar({ session }: Props) {
         </button>
         <button className="flex items-center space-x-2 hover:text-white">
           <BuildingLibraryIcon className="h-5 w-5" />
-          <p>Your Library</p>
+          <p>Library</p>
         </button>
         <hr className="border-t-[0.1px] border-gray-900" />
-        <button className="flex items-center space-x-2 hover:text-white">
+        {/* <button className="flex items-center space-x-2 hover:text-white">
           <PlusCircleIcon className="h-5 w-5" />
           <p>CreatePlaylist</p>
         </button>
@@ -77,7 +80,7 @@ export default function Sidebar({ session }: Props) {
           <RssIcon className="h-5 w-5" />
           <p>Your Episodes</p>
         </button>
-        <hr className="border-t-[0.1px] border-gray-900" />
+        <hr className="border-t-[0.1px] border-gray-900" /> */}
 
         {/* Playlists */}
         {playlists.map((playlist) => (

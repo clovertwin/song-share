@@ -178,9 +178,9 @@ export default function Search({ session }: Props) {
   };
 
   return (
-    <div className="bg-black w-full h-screen overflow-y-scroll scrollbar-hide text-white pb-32">
+    <div className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-32">
       {/** Search Bar */}
-      <div className="sticky top-0 flex flex-col pt-10 pb-5 px-10 bg-black lg:px-52">
+      <div className="sticky top-0 flex flex-col pt-10 pb-5 px-10 bg-black">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
           <div className="flex justify-center pr-5">
             <input

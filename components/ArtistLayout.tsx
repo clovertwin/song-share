@@ -74,9 +74,9 @@ export default function ArtistLayout({ session }: Props) {
       {!albumComponentOpen ? (
         <div className="px-8">
           <>
-            <div className="flex justify-start items-center space-x-8">
+            <div className="flex justify-start items-center px-5 space-x-8">
               {artist && (
-                <div className="rounded-full h-40 w-40 overflow-hidden">
+                <div className="rounded-full h-32 w-32 overflow-hidden md:h-40 md:w-40">
                   <Image
                     alt={`${artist?.name} image`}
                     src={artist?.images[2].url as string}
@@ -86,7 +86,7 @@ export default function ArtistLayout({ session }: Props) {
                 </div>
               )}
               <div>
-                <h1 className="pr-10 pb-2 font-bold text-5xl">
+                <h1 className="pr-10 pb-2 font-bold text-2xl sm:text-3xl lg:text-5xl">
                   {artist?.name}
                 </h1>
                 <p className="text-lg text-gray-500">
@@ -94,7 +94,7 @@ export default function ArtistLayout({ session }: Props) {
                 </p>
               </div>
             </div>
-            <div className="p-2">
+            <div className="p-5">
               <h3 className="font-bold text-lg pt-5">Albums</h3>
               {albums &&
                 albums.map((album) => (
