@@ -3,7 +3,11 @@ import { Session } from "next-auth/core/types";
 import Image from "next/image";
 import millisToMinutesAndSeconds from "../lib/millisToMinutesAndSeconds";
 import { useSetRecoilState } from "recoil";
-import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
+import {
+  currentPlayingTypeState,
+  currentTrackIdState,
+  isPlayingState,
+} from "../atoms/songAtom";
 
 interface Props {
   track: SpotifyApi.PlaylistTrackObject;
@@ -15,9 +19,11 @@ export default function Song({ track, order, session }: Props) {
   const spotifyApi = useSpotify(session);
   const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
   const setIsPlaying = useSetRecoilState(isPlayingState);
+  const setCurrentPlayingType = useSetRecoilState(currentPlayingTypeState);
 
   const playSong = () => {
     setCurrentTrackId(track.track?.id as string);
+    setCurrentPlayingType("track");
     setIsPlaying(true);
     spotifyApi.play({
       uris: [track.track?.uri as string],

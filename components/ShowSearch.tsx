@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { useSetRecoilState } from "recoil";
-import { selectedShowId, showComponentOpenState } from "../atoms/showAtom";
+import { selectedShowIdState, showComponentOpenState } from "../atoms/showAtom";
 import { showSearchOpenState } from "../atoms/searchSelectedShow";
 import { nanoid } from "nanoid";
 
@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function ShowSearch({ shows, fetchMore, next }: Props) {
-  const setShowId = useSetRecoilState(selectedShowId);
+  const setShowId = useSetRecoilState(selectedShowIdState);
   const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
   const setShowSearchOpen = useSetRecoilState(showSearchOpenState);
 

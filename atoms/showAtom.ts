@@ -5,7 +5,7 @@ export const showComponentOpenState = atom({
   default: false,
 });
 
-export const selectedShowId = atom({
+export const selectedShowIdState = atom({
   key: "selectedShowIdState",
   default: "",
 });

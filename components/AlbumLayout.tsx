@@ -10,7 +10,11 @@ import {
   albumComponentOpenState,
   selectedAlbumIdState,
 } from "../atoms/albumAtom";
-import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
+import {
+  currentPlayingTypeState,
+  currentTrackIdState,
+  isPlayingState,
+} from "../atoms/songAtom";
 import Image from "next/image";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import millisToMinutesAndSeconds from "../lib/millisToMinutesAndSeconds";
@@ -25,6 +29,7 @@ export default function AlbumLayout({ session }: Props) {
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setAlbumSearchOpen = useSetRecoilState(albumSearchOpenState);
   const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
+  const setCurrentPlayingType = useSetRecoilState(currentPlayingTypeState);
   const setIsPlaying = useSetRecoilState(isPlayingState);
   const [tracks, setTracks] = useState<SpotifyApi.TrackObjectSimplified[]>([]);
   const [next, setNext] = useState("");
@@ -48,6 +53,7 @@ export default function AlbumLayout({ session }: Props) {
 
   const handlePlaySong = (uri: string, id: string) => {
     setCurrentTrackId(id);
+    setCurrentPlayingType("track");
     setIsPlaying(true);
     spotifyApi.play({ uris: [uri] });
   };

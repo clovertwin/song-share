@@ -2,8 +2,12 @@ import Image from "next/image";
 import { useMemo, useEffect, useState } from "react";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth/core/types";
-import { useRecoilState } from "recoil";
-import { currentTrackIdState, isPlayingState } from "../atoms/songAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  currentPlayingTypeState,
+  currentTrackIdState,
+  isPlayingState,
+} from "../atoms/songAtom";
 import useSongInfo from "../hooks/useSongInfo";
 import {
   ArrowsRightLeftIcon,
@@ -18,6 +22,7 @@ import {
   SpeakerWaveIcon as VolumeUp,
 } from "@heroicons/react/24/solid";
 import { debounce } from "lodash";
+import useEpisodeInfo from "../hooks/useEpisodeInfo";
 
 interface Props {
   session: Session | null;
@@ -28,8 +33,10 @@ export default function Player({ session }: Props) {
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
+  const currentPlayingType = useRecoilValue(currentPlayingTypeState);
   const [volume, setVolume] = useState(50);
   const songInfo = useSongInfo(session);
+  const episodeInfo = useEpisodeInfo(session);
 
   const debouncedAdjustVolume = useMemo(
     () =>
@@ -41,7 +48,7 @@ export default function Player({ session }: Props) {
 
   useEffect(() => {
     const fetchCurrentSong = () => {
-      if (!songInfo) {
+      if (!songInfo && !episodeInfo) {
         spotifyApi.getMyCurrentPlayingTrack().then((data) => {
           setCurrentTrackId(data.body?.item?.id as string);
         });
@@ -61,6 +68,7 @@ export default function Player({ session }: Props) {
     setCurrentTrackId,
     setIsPlaying,
     songInfo,
+    episodeInfo,
   ]);
 
   useEffect(() => {
@@ -85,7 +93,7 @@ export default function Player({ session }: Props) {
     <div className="grid grid-cols-3 h-24 px-2 text-xs text-white bg-gradient-to-b from-black to-gray-900 md:text-base md:px-8">
       {/** left */}
       <div className="flex items-center space-x-4">
-        {songInfo && (
+        {songInfo && currentPlayingType === "track" && (
           <Image
             src={songInfo?.album.images[0].url as string}
             alt="album artwork"
@@ -94,9 +102,26 @@ export default function Player({ session }: Props) {
             className="hidden h-10 w-10 md:inline"
           />
         )}
+        {episodeInfo && currentPlayingType === "episode" && (
+          <Image
+            src={episodeInfo?.images[0].url as string}
+            alt="album artwork"
+            height={640}
+            width={640}
+            className="hidden h-10 w-10 md:inline"
+          />
+        )}
         <div>
-          <h3>{songInfo?.name}</h3>
-          <p>{songInfo?.artists[0].name}</p>
+          <h3>
+            {currentPlayingType === "track"
+              ? songInfo?.name
+              : currentPlayingType === "episode"
+              ? episodeInfo?.name
+              : null}
+          </h3>
+          <p>
+            {currentPlayingType === "track" ? songInfo?.artists[0].name : null}
+          </p>
         </div>
       </div>
       {/** Center */}

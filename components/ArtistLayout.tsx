@@ -2,7 +2,10 @@ import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import { useEffect, useState } from "react";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { selectedArtistId } from "../atoms/artistAtom";
+import {
+  artistComponentOpenState,
+  selectedArtistId,
+} from "../atoms/artistAtom";
 import Image from "next/image";
 import { nanoid } from "nanoid";
 import AlbumLayout from "./AlbumLayout";
@@ -10,7 +13,8 @@ import {
   albumComponentOpenState,
   selectedAlbumIdState,
 } from "../atoms/albumAtom";
-import { searchSelectedAlbumState } from "../atoms/searchSelectedAlbum";
+import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
+import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
 
 interface Props {
   session: Session | null;
@@ -26,6 +30,8 @@ export default function ArtistLayout({ session }: Props) {
   const [albumComponentOpen, setAlbumComponentOpen] = useRecoilState(
     albumComponentOpenState
   );
+  const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
+  const setArtistSearchOpen = useSetRecoilState(artistSearchOpenState);
   const setAlbumId = useSetRecoilState(selectedAlbumIdState);
   const artistId = useRecoilValue(selectedArtistId);
   const spotifyApi = useSpotify(session);
@@ -73,6 +79,15 @@ export default function ArtistLayout({ session }: Props) {
     <>
       {!albumComponentOpen ? (
         <div className="px-8">
+          <ArrowLeftCircleIcon
+            onClick={() => {
+              setArtistComponentOpen(false);
+              setArtistSearchOpen(true);
+            }}
+            className="text-gray-500 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
+          >
+            Back
+          </ArrowLeftCircleIcon>
           <>
             <div className="flex justify-start items-center px-5 space-x-8">
               {artist && (

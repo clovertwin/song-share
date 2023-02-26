@@ -9,3 +9,8 @@ export const isPlayingState = atom({
   key: "isPlayingState",
   default: false,
 });
+
+export const currentPlayingTypeState = atom({
+  key: "currentPlayingTypeState",
+  default: "track" as "track" | "episode",
+});

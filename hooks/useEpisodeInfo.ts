@@ -5,32 +5,32 @@ import {
   currentPlayingTypeState,
   currentTrackIdState,
 } from "../atoms/songAtom";
-import { Episode, Track } from "../types/typings";
+import { Episode } from "../types/typings";
 import useSpotify from "./useSpotify";
 
-export default function useSongInfo(session: Session | null) {
+export default function useEpisodeInfo(session: Session | null) {
   const spotifyApi = useSpotify(session);
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState);
   const currentPlayingType = useRecoilValue(currentPlayingTypeState);
-  const [songInfo, setSongInfo] = useState<Track | null>(null);
+  const [episodeInfo, setEpisodeInfo] = useState<Episode | null>(null);
 
   useEffect(() => {
-    const fetchSongInfo = async () => {
-      if (currentTrackId && currentPlayingType === "track") {
-        const trackInfo: Track = await fetch(
-          `https://api.spotify.com/v1/tracks/${currentTrackId}`,
+    const fetchEpisodeInfo = async () => {
+      if (currentTrackId && currentPlayingType === "episode") {
+        const episodeInfo: Episode = await fetch(
+          `https://api.spotify.com/v1/episodes/${currentTrackId}`,
           {
             headers: {
               Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
             },
           }
         ).then((res) => res.json());
-        setSongInfo(trackInfo);
+        setEpisodeInfo(episodeInfo);
       }
     };
-    fetchSongInfo();
+    fetchEpisodeInfo();
   }, [currentTrackId, spotifyApi, currentPlayingType]);
 
-  if (songInfo) return songInfo;
+  if (episodeInfo) return episodeInfo;
 }

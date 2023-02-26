@@ -273,12 +273,7 @@ export default function Search({ session }: Props) {
         <ArtistLayout session={session} />
       ) : null}
       {albumSearchSelected && albumSearchOpen ? (
-        <AlbumSearch
-          albums={albums}
-          fetchMore={fetchMore}
-          next={next}
-          session={session}
-        />
+        <AlbumSearch albums={albums} fetchMore={fetchMore} next={next} />
       ) : albumSearchSelected && albumCompoentOpen ? (
         <AlbumLayout session={session} />
       ) : null}
