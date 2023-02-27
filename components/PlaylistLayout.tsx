@@ -51,7 +51,9 @@ export default function PlaylistLayout({ session }: Props) {
       spotifyApi
         .getPlaylist(playlistId)
         .then((data) => setPlaylist(data.body))
-        .catch((error) => console.log("Something went wrong", error));
+        .catch((error) =>
+          console.log("Something went wrong fetching playlist: ", error)
+        );
     }
   }, [spotifyApi, playlistId, setPlaylist]);
 

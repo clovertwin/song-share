@@ -41,7 +41,14 @@ export default function Player({ session }: Props) {
   const debouncedAdjustVolume = useMemo(
     () =>
       debounce((volume: number) => {
-        spotifyApi.setVolume(volume).catch((error) => {});
+        spotifyApi
+          .setVolume(volume)
+          .catch((error) =>
+            console.log(
+              "Sorry there was a problem connecting to device volume: ",
+              error
+            )
+          );
       }, 300),
     [spotifyApi]
   );
@@ -49,12 +56,28 @@ export default function Player({ session }: Props) {
   useEffect(() => {
     const fetchCurrentSong = () => {
       if (!songInfo && !episodeInfo) {
-        spotifyApi.getMyCurrentPlayingTrack().then((data) => {
-          setCurrentTrackId(data.body?.item?.id as string);
-        });
-        spotifyApi.getMyCurrentPlaybackState().then((data) => {
-          setIsPlaying(data?.body?.is_playing);
-        });
+        spotifyApi
+          .getMyCurrentPlayingTrack()
+          .then((data) => {
+            setCurrentTrackId(data.body?.item?.id as string);
+          })
+          .catch((error) =>
+            console.log(
+              "Sorry, there was an error fetching the currently playing track: ",
+              error
+            )
+          );
+        spotifyApi
+          .getMyCurrentPlaybackState()
+          .then((data) => {
+            setIsPlaying(data?.body?.is_playing);
+          })
+          .catch((error) =>
+            console.log(
+              "Sorry, there was an error fetching current playback state: ",
+              error
+            )
+          );
       }
     };
     if (spotifyApi.getAccessToken() && !currentTrackId) {
