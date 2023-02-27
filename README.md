@@ -10,3 +10,8 @@ I used NextAuth to help with Authorization.
 Think of this as a wrapper for your Spotify. If you have the Spotify app running on a device you can use this to
 control your app - search Spotify and play songs, see your playlists, and adjust the volume on your device. If you
 do not have a device running the official Spotify app this will not be able to play music but can still search Spotify.
+
+## To-do
+
+- Add css for responsive tablet and mobile layouts
+- Mobile menu
