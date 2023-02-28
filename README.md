@@ -15,3 +15,4 @@ do not have a device running the official Spotify app this will not be able to p
 
 - Add css for responsive tablet and mobile layouts
 - Mobile menu
+- Library component
