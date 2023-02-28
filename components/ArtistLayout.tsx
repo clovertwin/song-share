@@ -13,6 +13,7 @@ import {
   albumComponentOpenState,
   selectedAlbumIdState,
 } from "../atoms/albumAtom";
+import addCommas from "../lib/addCommas";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
 
@@ -105,7 +106,10 @@ export default function ArtistLayout({ session }: Props) {
                   {artist?.name}
                 </h1>
                 <p className="text-lg text-gray-500">
-                  Followers: {artist?.followers.total}
+                  Followers:{" "}
+                  {artist?.followers.total
+                    ? addCommas(artist?.followers.total)
+                    : 0}
                 </p>
               </div>
             </div>
