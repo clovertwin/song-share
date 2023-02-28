@@ -22,26 +22,23 @@ const colors = [
   "from-purple-500",
 ];
 
-function randomColor(arr: string[]) {
-  const arrCopy = [...arr];
-  for (let i = arrCopy.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * i + 1);
-    let temp = arrCopy[i];
-    arrCopy[i] = arrCopy[j];
-    arrCopy[j] = temp;
+function randomColor(arr: string[], color: string) {
+  let newColor = arr[Math.floor(Math.random() * arr.length)];
+  while (newColor === color) {
+    newColor = arr[Math.floor(Math.random() * arr.length)];
   }
-  return arrCopy.pop();
+  return newColor;
 }
 
 export default function PlaylistLayout({ session }: Props) {
   const spotifyApi = useSpotify(session);
-  const [color, setColor] = useState<string | null | undefined>(null);
+  const [color, setColor] = useState("");
   const playlistId = useRecoilValue(playlistIdState);
   const [playlist, setPlaylist] = useRecoilState(playlistState);
 
   // Setting the background to a random color when the component mounts or when the playlistId state changes.
   useEffect(() => {
-    setColor(randomColor(colors));
+    setColor((c) => randomColor(colors, c));
   }, [playlistId]);
 
   // When playlistId changes or when the component mounts, and if the user has an accessToken,
