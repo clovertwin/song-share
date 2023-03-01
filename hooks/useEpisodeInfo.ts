@@ -1,6 +1,6 @@
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
   currentPlayingTypeState,
   currentTrackIdState,
@@ -10,15 +10,14 @@ import useSpotify from "./useSpotify";
 
 export default function useEpisodeInfo(session: Session | null) {
   const spotifyApi = useSpotify(session);
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState);
+  const currentTrackId = useRecoilValue(currentTrackIdState);
   const currentPlayingType = useRecoilValue(currentPlayingTypeState);
   const [episodeInfo, setEpisodeInfo] = useState<Episode | null>(null);
 
   useEffect(() => {
     const fetchEpisodeInfo = async () => {
       if (currentTrackId && currentPlayingType === "episode") {
-        const episodeInfo: Episode = await fetch(
+        const episodeInfoResponse: Episode = await fetch(
           `https://api.spotify.com/v1/episodes/${currentTrackId}`,
           {
             headers: {
@@ -26,7 +25,7 @@ export default function useEpisodeInfo(session: Session | null) {
             },
           }
         ).then((res) => res.json());
-        setEpisodeInfo(episodeInfo);
+        setEpisodeInfo(episodeInfoResponse);
       }
     };
     fetchEpisodeInfo();

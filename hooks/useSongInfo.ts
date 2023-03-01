@@ -1,17 +1,16 @@
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import {
   currentPlayingTypeState,
   currentTrackIdState,
 } from "../atoms/songAtom";
-import { Episode, Track } from "../types/typings";
+import { Track } from "../types/typings";
 import useSpotify from "./useSpotify";
 
 export default function useSongInfo(session: Session | null) {
   const spotifyApi = useSpotify(session);
-  const [currentTrackId, setCurrentTrackId] =
-    useRecoilState(currentTrackIdState);
+  const currentTrackId = useRecoilValue(currentTrackIdState);
   const currentPlayingType = useRecoilValue(currentPlayingTypeState);
   const [songInfo, setSongInfo] = useState<Track | null>(null);
 

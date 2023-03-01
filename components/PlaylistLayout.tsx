@@ -23,9 +23,10 @@ const colors = [
 ];
 
 function randomColor(arr: string[], color: string) {
-  let newColor = arr[Math.floor(Math.random() * arr.length)];
+  const getColor = () => arr[Math.floor(Math.random() * arr.length)];
+  let newColor = getColor();
   while (newColor === color) {
-    newColor = arr[Math.floor(Math.random() * arr.length)];
+    newColor = getColor();
   }
   return newColor;
 }

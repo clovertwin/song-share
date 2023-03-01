@@ -33,7 +33,9 @@ export default function Player({ session }: Props) {
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-  const currentPlayingType = useRecoilValue(currentPlayingTypeState);
+  const [currentPlayingType, setCurrentPlayingType] = useRecoilState(
+    currentPlayingTypeState
+  );
   const [volume, setVolume] = useState(50);
   const songInfo = useSongInfo(session);
   const episodeInfo = useEpisodeInfo(session);
@@ -113,16 +115,16 @@ export default function Player({ session }: Props) {
   };
 
   return (
-    <div className="grid grid-cols-3 h-24 px-2 text-xs text-white bg-gradient-to-b from-black to-gray-900 md:text-base md:px-8">
+    <div className="flex justify-between h-16 sm:h-24 px-2 text-xs text-white bg-gradient-to-b from-black to-gray-900 sm:grid sm:grid-cols-2 md:text-base md:px-8">
       {/** left */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center px-4 overflow-hidden space-x-4">
         {songInfo && currentPlayingType === "track" && (
           <Image
             src={songInfo?.album.images[0].url as string}
             alt="album artwork"
             height={640}
             width={640}
-            className="hidden h-10 w-10 md:inline"
+            className="h-10 w-10 md:inline"
           />
         )}
         {episodeInfo && currentPlayingType === "episode" && (
@@ -131,10 +133,10 @@ export default function Player({ session }: Props) {
             alt="album artwork"
             height={640}
             width={640}
-            className="hidden h-10 w-10 md:inline"
+            className="h-10 w-10 md:inline"
           />
         )}
-        <div>
+        <div className="truncate">
           <h3>
             {currentPlayingType === "track"
               ? songInfo?.name
@@ -143,46 +145,47 @@ export default function Player({ session }: Props) {
               : null}
           </h3>
           <p>
-            {currentPlayingType === "track" ? songInfo?.artists[0].name : null}
+            {currentPlayingType === "track"
+              ? songInfo?.artists[0].name
+              : currentPlayingType === "episode"
+              ? /* @ts-ignore */
+                episodeInfo?.show.name
+              : null}
           </p>
         </div>
       </div>
       {/** Center */}
-      <div className="flex items-center justify-evenly">
-        <ArrowsRightLeftIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
-        <BackwardIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
+      <div className="flex justify-between items-center">
         {isPlaying ? (
-          <PlayIcon
-            onClick={handlePlayPause}
-            className="h-10 w-10 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
-          />
-        ) : (
           <PauseIcon
             onClick={handlePlayPause}
-            className="h-10 w-10 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
+            className="h-8 w-8 pl-2 cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
+          />
+        ) : (
+          <PlayIcon
+            onClick={handlePlayPause}
+            className="h-8 w-8 pl-2 cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
           />
         )}
-        <ForwardIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
-        <ArrowUturnLeftIcon className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125" />
-      </div>
-      {/** Right */}
-      <div className="flex items-center justify-end pr-5 space-x-3 md:space-x-4">
-        <VolumeDown
-          onClick={() => volume > 0 && setVolume(volume - 10)}
-          className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
-        />
-        <input
-          onChange={(e) => setVolume(+e.target.value)}
-          className="w-14 md:w-28"
-          type="range"
-          value={volume}
-          min={0}
-          max={100}
-        />
-        <VolumeUp
-          onClick={() => volume < 100 && setVolume(volume + 10)}
-          className="h-5 w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
-        />
+        {/** Right */}
+        <div className="hidden sm:flex items-center justify-end sm:pr-5 space-x-3 md:space-x-4">
+          <VolumeDown
+            onClick={() => volume > 0 && setVolume(volume - 10)}
+            className="hidden sm:block sm:h-5 sm:w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
+          />
+          <input
+            onChange={(e) => setVolume(+e.target.value)}
+            className="w-20 h-1 range-sm md:w-28"
+            type="range"
+            value={volume}
+            min={0}
+            max={100}
+          />
+          <VolumeUp
+            onClick={() => volume < 100 && setVolume(volume + 10)}
+            className="hidden sm:block sm:h-5 sm:w-5 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
+          />
+        </div>
       </div>
     </div>
   );

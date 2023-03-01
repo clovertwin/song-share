@@ -12,5 +12,5 @@ export const isPlayingState = atom({
 
 export const currentPlayingTypeState = atom({
   key: "currentPlayingTypeState",
-  default: "track" as "track" | "episode",
+  default: "track" as "track" | "episode" | "ad" | "unknown",
 });
