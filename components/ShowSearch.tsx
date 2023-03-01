@@ -23,7 +23,7 @@ export default function ShowSearch({ shows, fetchMore, next }: Props) {
   };
 
   return (
-    <div className="px-8">
+    <div className="sm:px-8">
       <div>
         {shows.length > 0 &&
           shows.map((show, i) => (
@@ -32,7 +32,7 @@ export default function ShowSearch({ shows, fetchMore, next }: Props) {
               key={nanoid()}
               className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
             >
-              <p className="mr-4">{i + 1}</p>
+              <p className="sm:mr-4">{i + 1}</p>
               {show.images?.length > 0 ? (
                 <Image
                   alt={`${show.name} image`}
@@ -46,7 +46,7 @@ export default function ShowSearch({ shows, fetchMore, next }: Props) {
                   <PhotoIcon className="w-5 h-5 text-gray-500" />
                 </div>
               )}
-              <h1 className="text-lg ml-5 truncate">{show.name}</h1>
+              <h1 className="ml-5 truncate sm:text-lg">{show.name}</h1>
             </div>
           ))}
       </div>

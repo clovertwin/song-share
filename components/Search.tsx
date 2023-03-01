@@ -182,7 +182,7 @@ export default function Search({ session }: Props) {
       {/** Search Bar */}
       <div className="sticky top-0 flex flex-col pb-5 pt-5 bg-black sm:pt-10 sm:px-10">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
-          <div className="flex items-center justify-center pr-5">
+          <div className="flex items-center justify-center">
             <input
               ref={inputRef}
               className="ml-5 px-5 py-1 h-10 text-sm bg-black border-2 w-52 border-green-700 rounded-md sm:w-80 focus:outline-none focus:border-green-400 focus:ring-green-500"
@@ -203,15 +203,13 @@ export default function Search({ session }: Props) {
               autoComplete="off"
               onKeyUp={(e) => e.key === "Enter" && handleSearch()}
             />
-            <MagnifyingGlassIcon
-              onClick={handleSearch}
-              className="px-2 py-1 ml-2 h-8 text-gray-500 hover:text-white focus:text-white"
-            >
-              search
-            </MagnifyingGlassIcon>
             <XMarkIcon
               onClick={handleClear}
-              className="h-9 py-1 px-2 text-gray-500 hover:text-white focus:text-white"
+              className="h-9 py-1 px-2 ml-2 text-gray-500 hover:text-white focus:text-white"
+            />
+            <MagnifyingGlassIcon
+              onClick={handleSearch}
+              className="px-2 py-1 h-8 text-gray-500 hover:text-white focus:text-white"
             />
           </div>
         </div>
