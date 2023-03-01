@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
 import useSpotify from "../hooks/useSpotify";
@@ -182,10 +182,10 @@ export default function Search({ session }: Props) {
       {/** Search Bar */}
       <div className="sticky top-0 flex flex-col pb-5 pt-5 bg-black sm:pt-10 sm:px-10">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
-          <div className="flex justify-center pr-5">
+          <div className="flex items-center justify-center pr-5">
             <input
               ref={inputRef}
-              className="ml-5 px-5 py-1 h-10 bg-black border-2 border-green-700 rounded-md focus:outline-none focus:border-green-400 focus:ring-green-500"
+              className="ml-5 px-5 py-1 h-10 bg-black border-2 sm:w-80 border-green-700 rounded-md focus:outline-none focus:border-green-400 focus:ring-green-500"
               onChange={(e) => setSearchValue(e.target.value)}
               value={searchValue}
               type="text"
@@ -203,34 +203,26 @@ export default function Search({ session }: Props) {
               autoComplete="off"
               onKeyUp={(e) => e.key === "Enter" && handleSearch()}
             />
-            <button
+            <MagnifyingGlassIcon
               onClick={handleSearch}
-              className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
+              className="px-2 py-1 ml-2 h-8 text-gray-500 hover:text-white focus:text-white"
             >
               search
-            </button>
-            <button
+            </MagnifyingGlassIcon>
+            <XMarkIcon
               onClick={handleClear}
-              className="ml-5 rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
-            >
-              clear
-            </button>
+              className="h-9 py-1 px-2 text-gray-500 hover:text-white focus:text-white"
+            />
           </div>
-          <button
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="mr-10 w-9 rounded-md border-2 border-gray-800 text-gray-500 active:bg-gray-900 hover:border-gray-700 focus:border-green-500 focus:text-white  focus:outline-none focus:ring-green-500 hover:cursor-pointer"
-          >
-            <XMarkIcon className="h-8 w-8" />
-          </button>
         </div>
-        <div className="flex items-center ml-5 space-x-5 bg-black">
+        <div className="flex items-center ml-5 space-x-3 bg-black">
           <button
             onClick={() => handleSearchTypeSelect("artist")}
             className={`border-2 ${
               artistSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-5 text-sm 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Artists
           </button>
@@ -240,7 +232,7 @@ export default function Search({ session }: Props) {
               albumSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-5 text-sm 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Albums
           </button>
@@ -250,7 +242,7 @@ export default function Search({ session }: Props) {
               songSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-5 text-sm 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Songs
           </button>
@@ -260,7 +252,7 @@ export default function Search({ session }: Props) {
               showSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-5 text-sm 800 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Shows
           </button>
