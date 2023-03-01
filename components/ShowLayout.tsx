@@ -78,7 +78,7 @@ export default function AlbumLayout({ session }: Props) {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-5 sm:px-8">
       <ArrowLeftCircleIcon
         onClick={() => {
           setShowComponentOpen(false);
@@ -89,16 +89,16 @@ export default function AlbumLayout({ session }: Props) {
         Back
       </ArrowLeftCircleIcon>
       {show.images && (
-        <div className="flex items-end space-x-10 pb-5">
+        <div className="flex items-center space-x-4 sm:space-x-10 pb-5">
           <Image
             alt={`${show.name} cover art`}
             src={show.images[0].url}
             height={show.images[0].height}
             width={show.images[0].width}
-            className="w-40 h-40"
+            className="w-16 h-16 sm:w-40 sm:h-40"
           />
-          <div>
-            <h1 className="pr-10 text-2xl font-bold truncate">{show.name}</h1>
+          <div className="overflow-hidden">
+            <h1 className="pr-10 text-2xl font-bold">{show.name}</h1>
           </div>
         </div>
       )}
