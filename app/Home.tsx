@@ -35,7 +35,7 @@ export default function Home({ session }: Props) {
 
   return (
     <div className="bg-black h-screen overflow-hidden">
-      <main className="flex flex-col-reverse h-screen sm:flex-row">
+      <main className="flex flex-col-reverse h-full sm:flex-row">
         <Sidebar session={session} />
         {searchOpen ? (
           <Search session={session} />
