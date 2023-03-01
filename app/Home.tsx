@@ -43,7 +43,7 @@ export default function Home({ session }: Props) {
           <PlaylistLayout session={session} />
         )}
       </main>
-      <div className="sticky bottom-0">
+      <div className="fixed bottom-0 w-full">
         <Player session={session} />
       </div>
     </div>

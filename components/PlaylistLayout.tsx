@@ -57,7 +57,7 @@ export default function PlaylistLayout({ session }: Props) {
 
   return (
     <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
-      <header className="absolute top-5 right-8">
+      <header className="absolute top-2 right-2 sm:top-5 sm:right-8">
         <div
           className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full"
           onClick={() => signOut()}
@@ -81,7 +81,7 @@ export default function PlaylistLayout({ session }: Props) {
           <Image
             src={playlist?.images[0]?.url}
             alt="playlist image"
-            className="h-32 w-32 sm:h-44 sm:w-44"
+            className="h-28 w-28 sm:h-44 sm:w-44"
             width={640}
             height={640}
             priority={true}

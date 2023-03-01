@@ -133,7 +133,7 @@ export default function Player({ session }: Props) {
             alt="album artwork"
             height={640}
             width={640}
-            className="h-10 w-10 md:inline"
+            className="h-6 w-6 sm:h-10 sm:w-10 md:inline"
           />
         )}
         <div className="truncate">
