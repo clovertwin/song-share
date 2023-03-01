@@ -44,7 +44,7 @@ export default function Sidebar({ session }: Props) {
   };
 
   return (
-    <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:w-40 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
+    <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="bg-gray-900 rounded-md p-1 space-y-0 flex justify-around items-center truncate w-full sm:bg-inherit sm:space-x-0 sm:w-auto sm:space-y-4 sm:block">
         <button
           onClick={() => setSearchOpen(false)}
