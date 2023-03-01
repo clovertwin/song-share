@@ -8,7 +8,7 @@ export default async function Login() {
   return (
     <div className="h-screen bg-black flex flex-col justify-center items-center">
       <Image
-        className="max-w-sm mb-14"
+        className="max-w-[16rem] mb-5 sm:max-w-sm sm:mb-14"
         alt="spotify logo"
         src={logo}
         priority={true}

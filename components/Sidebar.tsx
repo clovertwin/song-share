@@ -44,21 +44,21 @@ export default function Sidebar({ session }: Props) {
   };
 
   return (
-    <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:w-auto sm:h-screen sm:max-w-[12rem] sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
-      <div className="bg-gray-900 rounded-md p-1 space-y-0 flex justify-around items-center w-full sm:bg-inherit sm:space-x-0 sm:w-auto sm:space-y-4 sm:block">
+    <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:w-40 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
+      <div className="bg-gray-900 rounded-md p-1 space-y-0 flex justify-around items-center truncate w-full sm:bg-inherit sm:space-x-0 sm:w-auto sm:space-y-4 sm:block">
         <button
           onClick={() => setSearchOpen(false)}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
           <HomeIcon className="h-6 w-6 sm:h-5 sm:w-5" />
-          <p className="text-[.65rem] sm:text-base">Home</p>
+          <p>Home</p>
         </button>
         <button
           onClick={() => setSearchOpen(!searchOpen)}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
           <MagnifyingGlassIcon className="h-6 w-6 sm:h-5 sm:w-5" />
-          <p className="text-[.65rem] sm:text-base">Search</p>
+          <p>Search</p>
         </button>
         <button className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white">
           <BuildingLibraryIcon className="h-5 w-5" />
@@ -71,7 +71,7 @@ export default function Sidebar({ session }: Props) {
             <p
               key={playlist.id}
               onClick={() => handlePlaylistSelect(playlist)}
-              className="cursor-pointer hover:text-white"
+              className="cursor-pointer hover:text-white truncate"
             >
               {playlist.name}
             </p>
