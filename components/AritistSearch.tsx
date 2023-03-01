@@ -26,7 +26,7 @@ export default function ArtistSearch({ artists, fetchMore, next }: Props) {
   };
 
   return (
-    <div className="px-8">
+    <div className="sm:px-8">
       <div>
         {artists.length > 0 &&
           artists.map((artist, i) => (
@@ -35,7 +35,7 @@ export default function ArtistSearch({ artists, fetchMore, next }: Props) {
               key={nanoid()}
               className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
             >
-              <p className="mr-4">{i + 1}</p>
+              <p className="sm:mr-4">{i + 1}</p>
               {artist.images.length > 0 ? (
                 <Image
                   alt={`${artist.name} image`}
@@ -49,7 +49,7 @@ export default function ArtistSearch({ artists, fetchMore, next }: Props) {
                   <PhotoIcon className="w-5 h-5 text-gray-500" />
                 </div>
               )}
-              <h1 className="text-lg ml-5">{artist.name}</h1>
+              <h1 className="sm:text-lg sm:ml-5">{artist.name}</h1>
             </div>
           ))}
       </div>

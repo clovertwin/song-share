@@ -159,7 +159,7 @@ export default function Player({ session }: Props) {
         {isPlaying ? (
           <PauseIcon
             onClick={handlePlayPause}
-            className="h-8 w-8 pl-2 cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
+            className="h-8 w-8 pl-2 self-center cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
           />
         ) : (
           <PlayIcon

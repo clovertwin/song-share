@@ -79,20 +79,20 @@ export default function ArtistLayout({ session }: Props) {
   return (
     <>
       {!albumComponentOpen ? (
-        <div className="px-8">
+        <div className="sm:px-8">
           <ArrowLeftCircleIcon
             onClick={() => {
               setArtistComponentOpen(false);
               setArtistSearchOpen(true);
             }}
-            className="text-gray-500 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
+            className="text-gray-500 block ml-4 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
           >
             Back
           </ArrowLeftCircleIcon>
           <>
-            <div className="flex justify-start items-center px-5 space-x-8">
+            <div className="flex space-x-4 items-center px-5 xs:justify-start sm:space-x-8">
               {artist && (
-                <div className="rounded-full h-32 w-32 overflow-hidden md:h-40 md:w-40">
+                <div className="rounded-full h-20 w-20 overflow-hidden">
                   <Image
                     alt={`${artist?.name} image`}
                     src={artist?.images[2].url as string}
@@ -102,10 +102,10 @@ export default function ArtistLayout({ session }: Props) {
                 </div>
               )}
               <div>
-                <h1 className="pr-10 pb-2 font-bold text-2xl sm:text-3xl lg:text-5xl">
+                <h1 className="pb-2 font-bold text-lg sm:text-3xl sm:pr-10 lg:text-5xl">
                   {artist?.name}
                 </h1>
-                <p className="text-lg text-gray-500">
+                <p className="text-gray-500 text-xs sm:text-lg">
                   Followers:{" "}
                   {artist?.followers.total
                     ? addCommas(artist?.followers.total)
@@ -119,7 +119,7 @@ export default function ArtistLayout({ session }: Props) {
                 albums.map((album) => (
                   <div
                     key={nanoid()}
-                    className="flex items-center space-x-4 py-4 px-5 rounded-lg hover:cursor-pointer hover:bg-gray-900"
+                    className="flex items-center space-x-4 py-4 rounded-lg sm:px-5 hover:cursor-pointer hover:bg-gray-900"
                     onClick={() => {
                       setAlbumId(album.id);
                       setAlbumComponentOpen(true);

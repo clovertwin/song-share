@@ -180,7 +180,7 @@ export default function Search({ session }: Props) {
   return (
     <div className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-32">
       {/** Search Bar */}
-      <div className="sticky top-0 flex flex-col pt-10 pb-5 px-10 bg-black">
+      <div className="sticky top-0 flex flex-col pb-5 pt-5 bg-black sm:pt-10 sm:px-10">
         <div className="flex items-center justify-between pb-5 bg-black z-10">
           <div className="flex justify-center pr-5">
             <input

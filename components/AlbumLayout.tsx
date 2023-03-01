@@ -79,27 +79,29 @@ export default function AlbumLayout({ session }: Props) {
   };
 
   return (
-    <div className="px-8">
+    <div className="sm:px-8">
       <ArrowLeftCircleIcon
         onClick={() => {
           setAlbumComponentOpen(false);
           setAlbumSearchOpen(true);
         }}
-        className="text-gray-500 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
+        className="text-gray-500 mb-5 ml-4 h-10 w-10 hover:text-white hover:cursor-pointer"
       >
         Back
       </ArrowLeftCircleIcon>
       {album.images && (
-        <div className="flex items-end space-x-10 pb-5">
+        <div className="flex items-center px-5 space-x-4 sm:space-x-10 pb-5">
           <Image
             alt={`${album.name} cover art`}
             src={album.images[0].url}
             height={album.images[0].height}
             width={album.images[0].width}
-            className="w-40 h-40"
+            className="h-16 w-16 sm:w-40 sm:h-40"
           />
-          <div>
-            <h1 className="pr-10 text-2xl font-bold truncate">{album.name}</h1>
+          <div className="flex flex-col overflow-hidden">
+            <h1 className="text-2xl font-bold truncate sm:pr-10">
+              {album.name}
+            </h1>
             <p className="text-gray-500 text-lg">
               {album.release_date.split("-")[0]}
             </p>
@@ -109,7 +111,7 @@ export default function AlbumLayout({ session }: Props) {
       {tracks.map((track, i) => (
         <div
           key={i}
-          className="flex justify-between items-center py-4 rounded-lg hover:cursor-pointer hover:bg-gray-900 sm:px-5"
+          className="flex justify-between items-center px-5 py-4 rounded-lg hover:cursor-pointer hover:bg-gray-900 sm:px-5"
           onClick={() => handlePlaySong(track.uri, track.id)}
         >
           <div className="flex space-x-5">

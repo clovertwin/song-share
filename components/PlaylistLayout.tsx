@@ -75,13 +75,13 @@ export default function PlaylistLayout({ session }: Props) {
         </div>
       </header>
       <section
-        className={`flex items-end space-x-7 bg-gradient-to-b ${color} to-black h-80 text-white p-8`}
+        className={`flex items-end space-x-7 p-8 h-60 bg-gradient-to-b ${color} to-black text-white sm:h-80`}
       >
         {playlist?.images.length > 0 ? (
           <Image
             src={playlist?.images[0]?.url}
             alt="playlist image"
-            className="h-44 w-44"
+            className="h-32 w-32 sm:h-44 sm:w-44"
             width={640}
             height={640}
             priority={true}
@@ -98,7 +98,7 @@ export default function PlaylistLayout({ session }: Props) {
           </h1>
         </div>
       </section>
-      <div className="p-8">
+      <div className="sm:p-8">
         <Songs session={session} />
       </div>
     </div>
