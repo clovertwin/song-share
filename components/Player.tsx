@@ -9,16 +9,10 @@ import {
   isPlayingState,
 } from "../atoms/songAtom";
 import useSongInfo from "../hooks/useSongInfo";
+import { SpeakerWaveIcon as VolumeDown } from "@heroicons/react/24/outline";
 import {
-  ArrowsRightLeftIcon,
-  SpeakerWaveIcon as VolumeDown,
-  ArrowUturnLeftIcon,
-} from "@heroicons/react/24/outline";
-import {
-  BackwardIcon,
-  ForwardIcon,
-  PauseIcon,
   PlayIcon,
+  PauseIcon,
   SpeakerWaveIcon as VolumeUp,
 } from "@heroicons/react/24/solid";
 import { debounce } from "lodash";
@@ -118,23 +112,26 @@ export default function Player({ session }: Props) {
     <div className="flex justify-between h-16 sm:h-24 px-2 text-xs text-white bg-gradient-to-b from-black to-gray-900 sm:grid sm:grid-cols-2 md:text-base md:px-8">
       {/** left */}
       <div className="flex items-center px-4 overflow-hidden space-x-4">
-        {songInfo && currentPlayingType === "track" && (
+        {songInfo && currentPlayingType === "track" ? (
           <Image
             src={songInfo?.album.images[0].url as string}
             alt="album artwork"
             height={640}
             width={640}
-            className="h-10 w-10 md:inline"
+            className="h-12 w-12 md:inline"
           />
-        )}
-        {episodeInfo && currentPlayingType === "episode" && (
+        ) : episodeInfo && currentPlayingType === "episode" ? (
           <Image
             src={episodeInfo?.images[0].url as string}
             alt="album artwork"
             height={640}
             width={640}
-            className="h-6 w-6 sm:h-10 sm:w-10 md:inline"
+            className="h-12 w-12 md:inline"
           />
+        ) : (
+          <div className="flex justify-center items-center h-12 w-12 bg-gray-800 opacity-60 text-xs md:inline">
+            No info
+          </div>
         )}
         <div className="truncate">
           <h3>
@@ -155,16 +152,16 @@ export default function Player({ session }: Props) {
         </div>
       </div>
       {/** Center */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between pr-5 items-center">
         {isPlaying ? (
           <PauseIcon
             onClick={handlePlayPause}
-            className="h-8 w-8 pl-2 self-center cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
+            className="h-10 w-10 pl-2 self-center cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
           />
         ) : (
           <PlayIcon
             onClick={handlePlayPause}
-            className="h-8 w-8 pl-2 cursor-pointer transition-transform ease-in-out duration-200 sm:h-10 sm:w-10 hover:scale-125"
+            className="h-10 w-10 pl-2 cursor-pointer transition-transform ease-in-out duration-200 hover:scale-125"
           />
         )}
         {/** Right */}

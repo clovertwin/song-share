@@ -102,7 +102,7 @@ export default function ArtistLayout({ session }: Props) {
                 </div>
               )}
               <div>
-                <h1 className="pb-2 font-bold text-lg sm:text-3xl sm:pr-10 lg:text-5xl">
+                <h1 className="pb-2 font-bold text-xl sm:text-3xl sm:pr-10 lg:text-5xl">
                   {artist?.name}
                 </h1>
                 <p className="text-gray-500 text-xs sm:text-lg">

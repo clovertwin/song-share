@@ -56,7 +56,7 @@ export default function PlaylistLayout({ session }: Props) {
   }, [spotifyApi, playlistId, setPlaylist]);
 
   return (
-    <div className="flex-grow text-white h-screen overflow-y-scroll scrollbar-hide">
+    <div className="flex-grow text-white h-screen pb-36 overflow-y-scroll scrollbar-hide">
       <header className="absolute top-2 right-2 sm:top-5 sm:right-8">
         <div
           className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full"

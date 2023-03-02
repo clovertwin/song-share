@@ -99,7 +99,7 @@ export default function AlbumLayout({ session }: Props) {
             className="h-16 w-16 sm:w-40 sm:h-40"
           />
           <div className="flex flex-col overflow-hidden">
-            <h1 className="text-2xl font-bold truncate sm:pr-10">
+            <h1 className="text-xl font-bold truncate sm:text-2xl sm:pr-10">
               {album.name}
             </h1>
             <p className="text-gray-500 text-lg">

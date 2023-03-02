@@ -11,7 +11,7 @@ export interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" className={`${inter.className} h-full w-full`}>
+    <html lang="en" className={`${inter.className} h-[99%] w-full`}>
       <AuthContext>
         <RecoilWrapper>
           <body>{children}</body>
