@@ -178,14 +178,14 @@ export default function Search({ session }: Props) {
   };
 
   return (
-    <div className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-32">
+    <div className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-36">
       {/** Search Bar */}
-      <div className="sticky top-0 flex flex-col pb-5 pt-5 bg-black sm:pt-10 sm:px-10">
-        <div className="flex items-center justify-between pb-5 bg-black z-10">
+      <div className="sticky top-0 flex flex-col pb-2 pt-4 bg-black sm:pt-10 sm:px-8">
+        <div className="flex items-center justify-between pb-4 bg-black z-10">
           <div className="flex items-center justify-center">
             <input
               ref={inputRef}
-              className="ml-5 px-5 py-1 h-10 bg-black border-2 w-52 border-green-700 rounded-md sm:w-80 focus:outline-none focus:border-green-400 focus:ring-green-500"
+              className="ml-5 px-5 py-1 h-10 bg-black border-2 w-52 border-green-700 rounded-md sm:w-80 focus:outline-none focus:border-green-400 focus:ring-green-500 xl:w-[500px]"
               onChange={(e) => setSearchValue(e.target.value)}
               value={searchValue}
               type="text"
@@ -220,7 +220,7 @@ export default function Search({ session }: Props) {
               artistSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Artists
           </button>
@@ -230,7 +230,7 @@ export default function Search({ session }: Props) {
               albumSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Albums
           </button>
@@ -240,7 +240,7 @@ export default function Search({ session }: Props) {
               songSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Songs
           </button>
@@ -250,7 +250,7 @@ export default function Search({ session }: Props) {
               showSearchSelected
                 ? `border-gray-700 text-white`
                 : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
           >
             Shows
           </button>

@@ -79,7 +79,7 @@ export default function AlbumLayout({ session }: Props) {
   };
 
   return (
-    <div className="sm:px-8">
+    <div className="sm:px-6">
       <ArrowLeftCircleIcon
         onClick={() => {
           setAlbumComponentOpen(false);

@@ -79,7 +79,7 @@ export default function ArtistLayout({ session }: Props) {
   return (
     <>
       {!albumComponentOpen ? (
-        <div className="sm:px-8">
+        <div className="sm:px-6">
           <ArrowLeftCircleIcon
             onClick={() => {
               setArtistComponentOpen(false);
@@ -92,7 +92,7 @@ export default function ArtistLayout({ session }: Props) {
           <>
             <div className="flex space-x-4 items-center px-5 xs:justify-start sm:space-x-8">
               {artist && (
-                <div className="rounded-full h-20 w-20 overflow-hidden">
+                <div className="rounded-full h-20 w-20 overflow-hidden sm:h-32 sm:w-32">
                   <Image
                     alt={`${artist?.name} image`}
                     src={artist?.images[2].url as string}
