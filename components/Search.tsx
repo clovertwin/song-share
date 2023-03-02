@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { searchOpenState } from "../atoms/searchAtom";
 import { useRecoilState } from "recoil";
 import useSpotify from "../hooks/useSpotify";
 import { Session } from "next-auth";
@@ -8,6 +7,7 @@ import ArtistSearch from "./AritistSearch";
 import AlbumSearch from "./AlbumSearch";
 import SongSearch from "./SongSearch";
 import ShowSearch from "./ShowSearch";
+import SelectorButton from "./SelectorButton";
 import { artistSearchOpenState } from "../atoms/searchSelectedArtist";
 import ArtistLayout from "./ArtistLayout";
 import { artistComponentOpenState } from "../atoms/artistAtom";
@@ -19,17 +19,16 @@ import ShowLayout from "./ShowLayout";
 import { showComponentOpenState } from "../atoms/showAtom";
 import { showSearchOpenState } from "../atoms/searchSelectedShow";
 
-interface Props {
+interface SearchProps {
   session: Session | null;
 }
 
-export default function Search({ session }: Props) {
+export default function Search({ session }: SearchProps) {
   const [searchValue, setSearchValue] = useState("");
   const [artistSearchSelected, setArtistSearchSelected] = useState(true);
   const [albumSearchSelected, setAlbumSearchSelected] = useState(false);
   const [songSearchSelected, setSongSearchSelected] = useState(false);
   const [showSearchSelected, setShowSearchSelected] = useState(false);
-  const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
   const [artistSearchOpen, setArtistSearchOpen] = useRecoilState(
     artistSearchOpenState
   );
@@ -60,9 +59,7 @@ export default function Search({ session }: Props) {
     inputRef.current?.focus();
   }, []);
 
-  const handleSearchTypeSelect = (
-    type: "artist" | "album" | "song" | "show"
-  ) => {
+  const handleSearchTypeSelect = (type: string) => {
     switch (type) {
       case "artist":
         setArtistSearchSelected(true);
@@ -214,46 +211,20 @@ export default function Search({ session }: Props) {
           </div>
         </div>
         <div className="flex items-center ml-5 space-x-3 bg-black">
-          <button
-            onClick={() => handleSearchTypeSelect("artist")}
-            className={`border-2 ${
-              artistSearchSelected
-                ? `border-gray-700 text-white`
-                : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
-          >
-            Artists
-          </button>
-          <button
-            onClick={() => handleSearchTypeSelect("album")}
-            className={`border-2 ${
-              albumSearchSelected
-                ? `border-gray-700 text-white`
-                : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
-          >
-            Albums
-          </button>
-          <button
-            onClick={() => handleSearchTypeSelect("song")}
-            className={`border-2 ${
-              songSearchSelected
-                ? `border-gray-700 text-white`
-                : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
-          >
-            Songs
-          </button>
-          <button
-            onClick={() => handleSearchTypeSelect("show")}
-            className={`border-2 ${
-              showSearchSelected
-                ? `border-gray-700 text-white`
-                : `border-gray-800 text-gray-500`
-            } rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
-          >
-            Shows
-          </button>
+          {/** Search-type selector buttons */}
+          {[
+            { type: "artist", isSelected: artistSearchSelected },
+            { type: "album", isSelected: albumSearchSelected },
+            { type: "song", isSelected: songSearchSelected },
+            { type: "show", isSelected: showSearchSelected },
+          ].map((search, i) => (
+            <SelectorButton
+              key={i}
+              handleSearchTypeSelect={handleSearchTypeSelect}
+              searchType={search.type}
+              selected={search.isSelected}
+            />
+          ))}
         </div>
       </div>
       {/** Search Results */}
