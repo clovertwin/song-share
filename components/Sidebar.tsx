@@ -50,14 +50,14 @@ export default function Sidebar({ session }: Props) {
           onClick={() => setSearchOpen(false)}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
-          <HomeIcon className="h-6 w-6 sm:h-5 sm:w-5" />
+          <HomeIcon className="h-5 w-5 sm:h-5 sm:w-5" />
           <p>Home</p>
         </button>
         <button
           onClick={() => setSearchOpen(!searchOpen)}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
-          <MagnifyingGlassIcon className="h-6 w-6 sm:h-5 sm:w-5" />
+          <MagnifyingGlassIcon className="h-5 w-5 sm:h-5 sm:w-5" />
           <p>Search</p>
         </button>
         <button className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white">

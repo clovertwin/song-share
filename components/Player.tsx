@@ -129,7 +129,7 @@ export default function Player({ session }: Props) {
             className="h-12 w-12 md:inline"
           />
         ) : (
-          <div className="flex justify-center items-center h-12 w-12 bg-gray-800 opacity-60 text-xs md:inline">
+          <div className="flex justify-center items-center h-12 w-12 bg-gray-800 opacity-60 text-xs">
             No info
           </div>
         )}

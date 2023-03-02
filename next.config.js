@@ -5,7 +5,12 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["platform-lookaside.fbsbx.com", "mosaic.scdn.co", "i.scdn.co"],
+    domains: [
+      "platform-lookaside.fbsbx.com",
+      "mosaic.scdn.co",
+      "i.scdn.co",
+      "res.cloudinary.com",
+    ],
   },
 };
 
