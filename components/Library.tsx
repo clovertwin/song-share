@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import Image from "next/image";
+import { likedSongsOpenState, playlistOpenState } from "../atoms/libraryAtom";
+import { useRecoilState } from "recoil";
 
 interface Props {
   session: Session | null;
@@ -11,6 +13,11 @@ export default function Library({ session }: Props) {
   const [playlists, setPlaylists] = useState<
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
+  const [likedSongs, setLikedSongs] = useState<SpotifyApi.SavedTrackObject[]>(
+    []
+  );
+  const [likedOpen, setLikedOpen] = useRecoilState(likedSongsOpenState);
+  const [playlistOpen, setPlaylistOpen] = useRecoilState(playlistOpenState);
   const spotifyApi = useSpotify(session);
 
   useEffect(() => {
@@ -18,8 +25,13 @@ export default function Library({ session }: Props) {
       spotifyApi.getUserPlaylists().then((data) => {
         setPlaylists(data.body.items);
       });
+      spotifyApi.getMySavedTracks().then((data) => {
+        setLikedSongs(data.body.items);
+      });
     }
   }, [spotifyApi, session]);
+
+  console.log(likedSongs);
 
   return (
     <section className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-36">
@@ -34,19 +46,59 @@ export default function Library({ session }: Props) {
         <h1 className="text-2xl font-bold">Your Library</h1>
       </div>
       <div className="flex px-3 pb-5 space-x-5 text-sm">
-        <button className="border-2 border-gray-800 text-gray-500 rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white">
+        <button
+          onClick={() => {
+            setPlaylistOpen(true);
+            setLikedOpen(false);
+          }}
+          className={`${
+            playlistOpen ? "text-white" : "text-gray-500"
+          } border-2 border-gray-800 rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+        >
           Playlists
         </button>
-        <button className="border-2 border-gray-800 text-gray-500 rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white">
+        <button
+          onClick={() => {
+            setLikedOpen(true);
+            setPlaylistOpen(false);
+          }}
+          className={`${
+            likedOpen ? "text-white" : "text-gray-500"
+          } border-2 border-gray-800 rounded-md py-1 px-3 text-xs sm:text-sm sm:px-5 xl:px-10 active:bg-gray-900 hover:border-gray-700 focus:outline-none focus:border-gray-700 hover:cursor-pointer hover:text-white`}
+        >
           Liked Songs
         </button>
       </div>
-      {playlists &&
-        playlists.map((playlist) => (
+      {likedOpen &&
+        likedSongs.map((song, i) => (
+          <div
+            className="flex py-2 px-3 items-center space-x-5 rounded-lg hover:bg-gray-900"
+            key={song.track.id}
+          >
+            <p className="text-gray-500">{i + 1}</p>
+            <Image
+              alt={`${song.track.album} cover art`}
+              src={song.track.album.images[0].url}
+              height={640}
+              width={640}
+              className="h-12 w-12"
+            />
+            <div className="overflow-hidden">
+              <h3 className="font-bold w-full truncate">
+                {song.track.artists[0].name}
+              </h3>
+              <p className="text-gray-500 w-full truncate">{song.track.name}</p>
+            </div>
+          </div>
+        ))}
+      {playlistOpen &&
+        playlists &&
+        playlists.map((playlist, i) => (
           <div
             key={playlist.id}
-            className="flex items-center py-3 rounded-lg space-x-5 px-3 hover:bg-gray-900"
+            className="flex items-center py-2 rounded-lg space-x-5 px-3 overflow-hidden hover:bg-gray-900"
           >
+            <p className="text-gray-500">{i + 1}</p>
             {playlist.images.length > 0 ? (
               <Image
                 alt={`${playlist.name} cover image`}
@@ -60,7 +112,7 @@ export default function Library({ session }: Props) {
                 No Image
               </div>
             )}
-            <h3 className="">{playlist.name}</h3>
+            <h3 className="font-bold truncate">{playlist.name}</h3>
           </div>
         ))}
     </section>

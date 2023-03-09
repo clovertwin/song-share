@@ -8,10 +8,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { artistComponentOpenState } from "../atoms/artistAtom";
-import {
-  playlistComponentOpeState,
-  playlistIdState,
-} from "../atoms/playlistAtom";
+import { playlistIdState } from "../atoms/playlistAtom";
 import { searchOpenState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
 import { libraryComponentOpenState } from "../atoms/libraryAtom";
@@ -34,9 +31,6 @@ export default function Sidebar({ session }: Props) {
   const [libraryOpen, setLibraryOpen] = useRecoilState(
     libraryComponentOpenState
   );
-  const [playlistOpen, setPlaylistOpen] = useRecoilState(
-    playlistComponentOpeState
-  );
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -57,7 +51,7 @@ export default function Sidebar({ session }: Props) {
   };
 
   return (
-    <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
+    <div className="text-gray-500 bg-black pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="bg-gray-900 rounded-md p-1 space-y-0 flex justify-around items-center truncate w-full sm:bg-inherit sm:space-x-0 sm:w-auto sm:space-y-4 sm:block">
         <button
           onClick={() => {
