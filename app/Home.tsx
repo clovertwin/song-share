@@ -3,6 +3,7 @@ import { Session } from "next-auth";
 import PlaylistLayout from "../components/PlaylistLayout";
 import Sidebar from "../components/Sidebar";
 import Player from "../components/Player";
+import Library from "../components/Library";
 import { searchOpenState } from "../atoms/searchAtom";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import Search from "../components/Search";
@@ -10,6 +11,7 @@ import { artistComponentOpenState } from "../atoms/artistAtom";
 import { useEffect } from "react";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { showComponentOpenState } from "../atoms/showAtom";
+import { libraryComponentOpenState } from "../atoms/libraryAtom";
 
 interface Props {
   session: Session | null;
@@ -20,17 +22,22 @@ export default function Home({ session }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
+  const [libraryOpen, setLibraryOpen] = useRecoilState(
+    libraryComponentOpenState
+  );
 
   useEffect(() => {
     setSearchOpen(false);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setShowComponentOpen(false);
+    setLibraryOpen(false);
   }, [
     setSearchOpen,
     setArtistComponentOpen,
     setAlbumComponentOpen,
     setShowComponentOpen,
+    setLibraryOpen,
   ]);
 
   return (
@@ -41,6 +48,8 @@ export default function Home({ session }: Props) {
         </div>
         {searchOpen ? (
           <Search session={session} />
+        ) : libraryOpen ? (
+          <Library session={session} />
         ) : (
           <PlaylistLayout session={session} />
         )}

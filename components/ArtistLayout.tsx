@@ -85,7 +85,7 @@ export default function ArtistLayout({ session }: Props) {
               setArtistComponentOpen(false);
               setArtistSearchOpen(true);
             }}
-            className="text-gray-500 block ml-4 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
+            className="text-gray-500 block ml-4 mb-5 mt-2 h-10 w-10 hover:text-white hover:cursor-pointer"
           >
             Back
           </ArrowLeftCircleIcon>
@@ -128,8 +128,8 @@ export default function ArtistLayout({ session }: Props) {
                     <Image
                       alt={`${album.name} cover art`}
                       src={album.images[0].url}
-                      height={album.images[0].height}
-                      width={album.images[0].width}
+                      height={640}
+                      width={640}
                       className="h-16 w-16"
                     />
                     <div>

@@ -84,7 +84,7 @@ export default function AlbumLayout({ session }: Props) {
           setShowComponentOpen(false);
           setShowSearchOpen(true);
         }}
-        className="text-gray-500 mb-5 h-10 w-10 hover:text-white hover:cursor-pointer"
+        className="text-gray-500 mb-5 mt-2 h-10 w-10 hover:text-white hover:cursor-pointer"
       >
         Back
       </ArrowLeftCircleIcon>
@@ -93,8 +93,8 @@ export default function AlbumLayout({ session }: Props) {
           <Image
             alt={`${show.name} cover art`}
             src={show.images[0].url}
-            height={show.images[0].height}
-            width={show.images[0].width}
+            height={640}
+            width={640}
             className="w-16 h-16 sm:w-40 sm:h-40"
           />
           <div className="overflow-hidden">

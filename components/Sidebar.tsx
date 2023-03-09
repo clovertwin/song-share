@@ -8,9 +8,14 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { artistComponentOpenState } from "../atoms/artistAtom";
-import { playlistIdState } from "../atoms/playlistAtom";
+import {
+  playlistComponentOpeState,
+  playlistIdState,
+} from "../atoms/playlistAtom";
 import { searchOpenState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
+import { libraryComponentOpenState } from "../atoms/libraryAtom";
+import { showComponentOpenState } from "../atoms/showAtom";
 
 interface Props {
   session: Session | null;
@@ -25,6 +30,13 @@ export default function Sidebar({ session }: Props) {
   const [searchOpen, setSearchOpen] = useRecoilState(searchOpenState);
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
+  const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
+  const [libraryOpen, setLibraryOpen] = useRecoilState(
+    libraryComponentOpenState
+  );
+  const [playlistOpen, setPlaylistOpen] = useRecoilState(
+    playlistComponentOpeState
+  );
 
   useEffect(() => {
     if (spotifyApi.getAccessToken()) {
@@ -41,26 +53,39 @@ export default function Sidebar({ session }: Props) {
     setSearchOpen(false);
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
+    setShowComponentOpen(false);
   };
 
   return (
     <div className="text-gray-500 pt-5 px-2 pb-16 text-xs border-r-gray-900 scrollbar-hide w-full sm:pb-36 sm:h-screen sm:overflow-y-scroll md:inline-flex lg:max-w-[15rem] lg:text-sm">
       <div className="bg-gray-900 rounded-md p-1 space-y-0 flex justify-around items-center truncate w-full sm:bg-inherit sm:space-x-0 sm:w-auto sm:space-y-4 sm:block">
         <button
-          onClick={() => setSearchOpen(false)}
+          onClick={() => {
+            setSearchOpen(false);
+            setLibraryOpen(false);
+          }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
           <HomeIcon className="h-5 w-5 sm:h-5 sm:w-5" />
           <p>Home</p>
         </button>
         <button
-          onClick={() => setSearchOpen(!searchOpen)}
+          onClick={() => {
+            setSearchOpen(!searchOpen);
+            setLibraryOpen(false);
+          }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
           <MagnifyingGlassIcon className="h-5 w-5 sm:h-5 sm:w-5" />
           <p>Search</p>
         </button>
-        <button className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white">
+        <button
+          onClick={() => {
+            setSearchOpen(false);
+            setLibraryOpen((prev) => !prev);
+          }}
+          className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
+        >
           <BuildingLibraryIcon className="h-5 w-5" />
           <p>Library</p>
         </button>

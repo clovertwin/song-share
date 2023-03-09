@@ -9,3 +9,8 @@ export const playlistIdState = atom({
   key: "playlistIdState",
   default: "2ikkUzxTTfEAJ6aZ3CvC0a",
 });
+
+export const playlistComponentOpeState = atom({
+  key: "playlistComponentOpenState",
+  default: false,
+});
