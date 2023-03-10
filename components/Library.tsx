@@ -2,8 +2,21 @@ import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import useSpotify from "../hooks/useSpotify";
 import Image from "next/image";
-import { likedSongsOpenState, playlistOpenState } from "../atoms/libraryAtom";
-import { useRecoilState } from "recoil";
+import {
+  libraryComponentOpenState,
+  likedSongsOpenState,
+  playlistOpenState,
+} from "../atoms/libraryAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  playListComponentOpenState,
+  playlistIdState,
+} from "../atoms/playlistAtom";
+import {
+  currentPlayingTypeState,
+  currentTrackIdState,
+  isPlayingState,
+} from "../atoms/songAtom";
 
 interface Props {
   session: Session | null;
@@ -18,6 +31,16 @@ export default function Library({ session }: Props) {
   );
   const [likedOpen, setLikedOpen] = useRecoilState(likedSongsOpenState);
   const [playlistOpen, setPlaylistOpen] = useRecoilState(playlistOpenState);
+  const [playListComponentOpen, setPlaylistComponentOpen] = useRecoilState(
+    playListComponentOpenState
+  );
+  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
+  const [libraryOpen, setLibraryOpen] = useRecoilState(
+    libraryComponentOpenState
+  );
+  const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
+  const setIsPlaying = useSetRecoilState(isPlayingState);
+  const setCurrentPlayingType = useSetRecoilState(currentPlayingTypeState);
   const spotifyApi = useSpotify(session);
 
   useEffect(() => {
@@ -31,7 +54,22 @@ export default function Library({ session }: Props) {
     }
   }, [spotifyApi, session]);
 
-  console.log(likedSongs);
+  const handlePlaylistSelect = (
+    playlist: SpotifyApi.PlaylistObjectSimplified
+  ) => {
+    setPlaylistId(playlist.id);
+    setPlaylistComponentOpen(true);
+    setLibraryOpen(false);
+  };
+
+  const playSong = (song: SpotifyApi.SavedTrackObject) => {
+    setCurrentTrackId(song.track.id);
+    setCurrentPlayingType("track");
+    setIsPlaying(true);
+    spotifyApi.play({
+      uris: [song.track?.uri],
+    });
+  };
 
   return (
     <section className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-36">
@@ -74,8 +112,11 @@ export default function Library({ session }: Props) {
           <div
             className="flex py-2 px-3 items-center space-x-5 rounded-lg hover:bg-gray-900"
             key={song.track.id}
+            onClick={() => playSong(song)}
           >
-            <p className="text-gray-500">{i + 1}</p>
+            <p className="text-gray-500">
+              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+            </p>
             <Image
               alt={`${song.track.album} cover art`}
               src={song.track.album.images[0].url}
@@ -97,8 +138,11 @@ export default function Library({ session }: Props) {
           <div
             key={playlist.id}
             className="flex items-center py-2 rounded-lg space-x-5 px-3 overflow-hidden hover:bg-gray-900"
+            onClick={() => handlePlaylistSelect(playlist)}
           >
-            <p className="text-gray-500">{i + 1}</p>
+            <p className="text-gray-500">
+              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+            </p>
             {playlist.images.length > 0 ? (
               <Image
                 alt={`${playlist.name} cover image`}

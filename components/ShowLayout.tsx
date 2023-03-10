@@ -109,7 +109,9 @@ export default function AlbumLayout({ session }: Props) {
           onClick={() => handlePlayEpisode(episode.uri, episode.id)}
         >
           <div className="flex space-x-5">
-            <p className="text-gray-500">{i + 1}</p>
+            <p className="text-gray-500">
+              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+            </p>
             <h3 className="w-52 truncate pr-4 sm:w-80">{episode.name}</h3>
           </div>
           <p className="text-gray-500">

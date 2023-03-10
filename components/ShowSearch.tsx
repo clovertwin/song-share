@@ -32,7 +32,7 @@ export default function ShowSearch({ shows, fetchMore, next }: Props) {
               key={nanoid()}
               className="flex items-center space-x-3 p-5 rounded-md text-gray-500 hover:text-white hover:cursor-pointer hover:bg-gray-900"
             >
-              <p className="sm:mr-4">{i + 1}</p>
+              <p className="sm:mr-4">{i + 1 < 10 ? "0" + (i + 1) : i + 1}</p>
               {show.images?.length > 0 ? (
                 <Image
                   alt={`${show.name} image`}

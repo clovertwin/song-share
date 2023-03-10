@@ -8,11 +8,15 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { artistComponentOpenState } from "../atoms/artistAtom";
-import { playlistIdState } from "../atoms/playlistAtom";
+import {
+  playListComponentOpenState,
+  playlistIdState,
+} from "../atoms/playlistAtom";
 import { searchOpenState } from "../atoms/searchAtom";
 import useSpotify from "../hooks/useSpotify";
 import { libraryComponentOpenState } from "../atoms/libraryAtom";
 import { showComponentOpenState } from "../atoms/showAtom";
+import { homeOpenState } from "../atoms/homeAtom";
 
 interface Props {
   session: Session | null;
@@ -28,8 +32,10 @@ export default function Sidebar({ session }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
-  const [libraryOpen, setLibraryOpen] = useRecoilState(
-    libraryComponentOpenState
+  const setLibraryOpen = useSetRecoilState(libraryComponentOpenState);
+  const setHomeOpen = useSetRecoilState(homeOpenState);
+  const setPlaylistComponentOpen = useSetRecoilState(
+    playListComponentOpenState
   );
 
   useEffect(() => {
@@ -48,6 +54,8 @@ export default function Sidebar({ session }: Props) {
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setShowComponentOpen(false);
+    setLibraryOpen(false);
+    setPlaylistComponentOpen(true);
   };
 
   return (
@@ -57,6 +65,8 @@ export default function Sidebar({ session }: Props) {
           onClick={() => {
             setSearchOpen(false);
             setLibraryOpen(false);
+            setPlaylistComponentOpen(false);
+            setHomeOpen(true);
           }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
@@ -67,6 +77,7 @@ export default function Sidebar({ session }: Props) {
           onClick={() => {
             setSearchOpen(!searchOpen);
             setLibraryOpen(false);
+            setPlaylistComponentOpen(false);
           }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >
@@ -76,6 +87,7 @@ export default function Sidebar({ session }: Props) {
         <button
           onClick={() => {
             setSearchOpen(false);
+            setPlaylistComponentOpen(false);
             setLibraryOpen((prev) => !prev);
           }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"

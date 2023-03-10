@@ -115,7 +115,9 @@ export default function AlbumLayout({ session }: Props) {
           onClick={() => handlePlaySong(track.uri, track.id)}
         >
           <div className="flex space-x-5">
-            <p className="text-gray-500">{i + 1}</p>
+            <p className="text-gray-500">
+              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+            </p>
             <h3 className="w-52 truncate pr-4 sm:w-80">{track.name}</h3>
           </div>
           <p className="text-gray-500">

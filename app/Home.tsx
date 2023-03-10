@@ -4,14 +4,17 @@ import PlaylistLayout from "../components/PlaylistLayout";
 import Sidebar from "../components/Sidebar";
 import Player from "../components/Player";
 import Library from "../components/Library";
+import HomeComponent from "../components/HomeComponent";
 import { searchOpenState } from "../atoms/searchAtom";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState, useRecoilValue } from "recoil";
 import Search from "../components/Search";
 import { artistComponentOpenState } from "../atoms/artistAtom";
 import { useEffect } from "react";
 import { albumComponentOpenState } from "../atoms/albumAtom";
 import { showComponentOpenState } from "../atoms/showAtom";
 import { libraryComponentOpenState } from "../atoms/libraryAtom";
+import { playListComponentOpenState } from "../atoms/playlistAtom";
+import { homeOpenState } from "../atoms/homeAtom";
 
 interface Props {
   session: Session | null;
@@ -22,8 +25,12 @@ export default function Home({ session }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
+  const [homeOpen, setHomeOpen] = useRecoilState(homeOpenState);
   const [libraryOpen, setLibraryOpen] = useRecoilState(
     libraryComponentOpenState
+  );
+  const [playlistComponentOpen, setPlaylistComponentOpen] = useRecoilState(
+    playListComponentOpenState
   );
 
   useEffect(() => {
@@ -31,13 +38,15 @@ export default function Home({ session }: Props) {
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setShowComponentOpen(false);
-    setLibraryOpen(false);
+    setLibraryOpen(true);
+    setHomeOpen(false);
   }, [
     setSearchOpen,
     setArtistComponentOpen,
     setAlbumComponentOpen,
     setShowComponentOpen,
     setLibraryOpen,
+    setHomeOpen,
   ]);
 
   return (
@@ -50,9 +59,11 @@ export default function Home({ session }: Props) {
           <Search session={session} />
         ) : libraryOpen ? (
           <Library session={session} />
-        ) : (
+        ) : playlistComponentOpen ? (
           <PlaylistLayout session={session} />
-        )}
+        ) : homeOpen ? (
+          <HomeComponent />
+        ) : null}
       </main>
       <div className="fixed bottom-0 w-full">
         <Player session={session} />

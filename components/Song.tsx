@@ -36,7 +36,7 @@ export default function Song({ track, order, session }: Props) {
       onClick={playSong}
     >
       <div className="flex items-center space-x-4">
-        <p>{order + 1}</p>
+        <p>{order + 1 < 10 ? "0" + (order + 1) : order + 1}</p>
         <Image
           src={track.track?.album.images[0].url as string}
           alt="album artwork"
