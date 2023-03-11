@@ -27,9 +27,7 @@ export default function Player({ session }: Props) {
   const [currentTrackId, setCurrentTrackId] =
     useRecoilState(currentTrackIdState);
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState);
-  const [currentPlayingType, setCurrentPlayingType] = useRecoilState(
-    currentPlayingTypeState
-  );
+  const currentPlayingType = useRecoilValue(currentPlayingTypeState);
   const [volume, setVolume] = useState(50);
   const songInfo = useSongInfo(session);
   const episodeInfo = useEpisodeInfo(session);

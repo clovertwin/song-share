@@ -4,9 +4,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { playlistIdState, playlistState } from "../atoms/playlistAtom";
 import useSpotify from "../hooks/useSpotify";
 import Songs from "./Songs";
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
 
 interface Props {
   session: Session | null;
@@ -57,23 +55,6 @@ export default function PlaylistLayout({ session }: Props) {
 
   return (
     <div className="flex-grow text-white h-screen pb-36 overflow-y-scroll scrollbar-hide">
-      <header className="absolute top-2 right-2 sm:top-5 sm:right-8">
-        <div
-          className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full"
-          onClick={() => signOut()}
-        >
-          <Image
-            className="rounded-full w-10 h-10"
-            alt="photo of user"
-            src={session?.user.image as string}
-            height={300}
-            width={300}
-            priority={true}
-          />
-          <h2>{session?.user.name}</h2>
-          <ChevronDownIcon className="h-5, w-5" />
-        </div>
-      </header>
       <section
         className={`flex items-end space-x-7 p-8 h-60 bg-gradient-to-b ${color} to-black text-white sm:h-80`}
       >

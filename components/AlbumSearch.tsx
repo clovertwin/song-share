@@ -1,13 +1,12 @@
 import Image from "next/image";
 import { PhotoIcon } from "@heroicons/react/24/outline";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import {
   albumComponentOpenState,
   selectedAlbumIdState,
 } from "../atoms/albumAtom";
 import { albumSearchOpenState } from "../atoms/searchSelectedAlbum";
 import { nanoid } from "nanoid";
-import { Session } from "next-auth";
 
 interface Props {
   albums: SpotifyApi.AlbumObjectSimplified[];

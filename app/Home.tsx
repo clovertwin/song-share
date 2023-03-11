@@ -62,7 +62,7 @@ export default function Home({ session }: Props) {
         ) : playlistComponentOpen ? (
           <PlaylistLayout session={session} />
         ) : homeOpen ? (
-          <HomeComponent />
+          <HomeComponent session={session} />
         ) : null}
       </main>
       <div className="fixed bottom-0 w-full">

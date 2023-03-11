@@ -31,13 +31,11 @@ export default function Library({ session }: Props) {
   );
   const [likedOpen, setLikedOpen] = useRecoilState(likedSongsOpenState);
   const [playlistOpen, setPlaylistOpen] = useRecoilState(playlistOpenState);
-  const [playListComponentOpen, setPlaylistComponentOpen] = useRecoilState(
+  const setPlaylistComponentOpen = useSetRecoilState(
     playListComponentOpenState
   );
-  const [playlistId, setPlaylistId] = useRecoilState(playlistIdState);
-  const [libraryOpen, setLibraryOpen] = useRecoilState(
-    libraryComponentOpenState
-  );
+  const setPlaylistId = useSetRecoilState(playlistIdState);
+  const setLibraryOpen = useSetRecoilState(libraryComponentOpenState);
   const setCurrentTrackId = useSetRecoilState(currentTrackIdState);
   const setIsPlaying = useSetRecoilState(isPlayingState);
   const setCurrentPlayingType = useSetRecoilState(currentPlayingTypeState);
@@ -72,18 +70,20 @@ export default function Library({ session }: Props) {
   };
 
   return (
-    <section className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-36">
-      <div className="flex items-center space-x-5 py-5 px-3">
+    <section className="bg-black h-screen w-full overflow-y-scroll scrollbar-hide text-white pb-36 sm:ml-14">
+      <div className="flex items-center space-x-5 px-3 pt-14 pb-7 md:pt-20 md:pb-10">
         <Image
           alt="profile picture"
           src={session?.user.image as string}
           height={300}
           width={300}
-          className="h-10 w-10 rounded-full"
+          className="h-10 w-10 rounded-full sm:h-14 sm:w-14"
         />
-        <h1 className="text-2xl font-bold">Your Library</h1>
+        <h1 className="text-4xl font-bold sm:text-4xl md:text-5xl">
+          Your Library
+        </h1>
       </div>
-      <div className="flex px-3 pb-5 space-x-5 text-sm">
+      <div className="flex px-3 pb-7 space-x-5 text-sm md:pb-10">
         <button
           onClick={() => {
             setPlaylistOpen(true);
@@ -109,8 +109,8 @@ export default function Library({ session }: Props) {
       </div>
       {likedOpen &&
         likedSongs.map((song, i) => (
-          <div
-            className="flex py-2 px-3 items-center space-x-5 rounded-lg hover:bg-gray-900"
+          <button
+            className="flex w-full py-3 px-3 items-center space-x-5 rounded-lg md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
             key={song.track.id}
             onClick={() => playSong(song)}
           >
@@ -124,20 +124,20 @@ export default function Library({ session }: Props) {
               width={640}
               className="h-12 w-12"
             />
-            <div className="overflow-hidden">
-              <h3 className="font-bold w-full truncate">
+            <div className="overflow-hidden text-left">
+              <h3 className="font-bold w-full truncate md:text-lg">
                 {song.track.artists[0].name}
               </h3>
               <p className="text-gray-500 w-full truncate">{song.track.name}</p>
             </div>
-          </div>
+          </button>
         ))}
       {playlistOpen &&
         playlists &&
         playlists.map((playlist, i) => (
-          <div
+          <button
             key={playlist.id}
-            className="flex items-center py-2 rounded-lg space-x-5 px-3 overflow-hidden hover:bg-gray-900"
+            className="flex items-center w-full py-3 rounded-lg space-x-5 px-3 overflow-hidden md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
             onClick={() => handlePlaylistSelect(playlist)}
           >
             <p className="text-gray-500">
@@ -149,15 +149,15 @@ export default function Library({ session }: Props) {
                 src={playlist.images[0]?.url}
                 height={640}
                 width={640}
-                className="h-12 w-12"
+                className="h-12 w-12 md:h-14 md:w-14"
               />
             ) : (
-              <div className="flex justify-center items-center h-12 w-12 text-xs text-center bg-gray-900">
+              <div className="flex justify-center items-center h-12 w-12 text-xs text-center bg-gray-900 md:h-14 md:w-14">
                 No Image
               </div>
             )}
             <h3 className="font-bold truncate">{playlist.name}</h3>
-          </div>
+          </button>
         ))}
     </section>
   );
