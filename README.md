@@ -13,6 +13,4 @@ do not have a device running the official Spotify app this will not be able to p
 
 ## To-do
 
-- Add css for responsive tablet and mobile layouts
-- Mobile menu
-- Library component
+- Home screen
