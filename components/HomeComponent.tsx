@@ -1,15 +1,36 @@
+import { useEffect, useState } from "react";
 import { Session } from "next-auth";
 import Image from "next/image";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
+import useSpotify from "../hooks/useSpotify";
 
 interface Props {
   session: Session | null;
 }
 
 export default function HomeComponent({ session }: Props) {
+  const [topArtists, setTopArtists] = useState<SpotifyApi.ArtistObjectFull[]>(
+    []
+  );
+  const [topTracks, setTopTracks] = useState<SpotifyApi.TrackObjectFull[]>([]);
+  const spotifyApi = useSpotify(session);
+
+  useEffect(() => {
+    spotifyApi.getMyTopArtists({ limit: 10 }).then((data) => {
+      if (data.body.items.length > 0) {
+        setTopArtists(data.body.items);
+      }
+    });
+    spotifyApi.getMyTopTracks({ limit: 10 }).then((data) => {
+      if (data.body.items.length > 0) {
+        setTopTracks(data.body.items);
+      }
+    });
+  }, [spotifyApi]);
+
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center text-white pb-36">
+    <div className="h-screen w-full flex flex-col mt-20 text-white pb-36">
       <header className="absolute top-2 right-2 sm:top-5 sm:right-8">
         <div
           className="flex items-center bg-white bg-opacity-20 p-1 pr-2 space-x-3 opacity-90 hover:bg-opacity-50 cursor-pointer rounded-full"
@@ -28,7 +49,12 @@ export default function HomeComponent({ session }: Props) {
         </div>
       </header>
       <h1 className="font-bold text-xl">Home Page</h1>
-      <p className="pt-5">under construction...</p>
+      <h2 className="pt-5">Top Artists:</h2>
+      <ul className="pt-5">
+        {topArtists
+          ? topArtists.map((artist, i) => <li key={i}>{artist.name}</li>)
+          : null}
+      </ul>
     </div>
   );
 }
