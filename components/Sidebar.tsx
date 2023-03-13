@@ -66,6 +66,7 @@ export default function Sidebar({ session }: Props) {
             setSearchOpen(false);
             setLibraryOpen(false);
             setPlaylistComponentOpen(false);
+            setArtistComponentOpen(false);
             setHomeOpen(true);
           }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
