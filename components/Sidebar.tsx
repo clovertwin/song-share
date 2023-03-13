@@ -32,7 +32,9 @@ export default function Sidebar({ session }: Props) {
   const setArtistComponentOpen = useSetRecoilState(artistComponentOpenState);
   const setAlbumComponentOpen = useSetRecoilState(albumComponentOpenState);
   const setShowComponentOpen = useSetRecoilState(showComponentOpenState);
-  const setLibraryOpen = useSetRecoilState(libraryComponentOpenState);
+  const [libraryOpen, setLibraryOpen] = useRecoilState(
+    libraryComponentOpenState
+  );
   const setHomeOpen = useSetRecoilState(homeOpenState);
   const setPlaylistComponentOpen = useSetRecoilState(
     playListComponentOpenState
@@ -89,7 +91,9 @@ export default function Sidebar({ session }: Props) {
           onClick={() => {
             setSearchOpen(false);
             setPlaylistComponentOpen(false);
-            setLibraryOpen((prev) => !prev);
+            setArtistComponentOpen(false);
+            setHomeOpen(false);
+            setLibraryOpen(true);
           }}
           className="flex flex-col items-center space-x-0 sm:space-x-2 sm:flex-row hover:text-white"
         >

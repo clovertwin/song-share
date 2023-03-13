@@ -38,8 +38,8 @@ export default function Home({ session }: Props) {
     setArtistComponentOpen(false);
     setAlbumComponentOpen(false);
     setShowComponentOpen(false);
-    setLibraryOpen(true);
-    setHomeOpen(false);
+    setLibraryOpen(false);
+    setHomeOpen(true);
   }, [
     setSearchOpen,
     setArtistComponentOpen,
@@ -61,9 +61,9 @@ export default function Home({ session }: Props) {
           <Library session={session} />
         ) : playlistComponentOpen ? (
           <PlaylistLayout session={session} />
-        ) : homeOpen ? (
+        ) : (
           <HomeComponent session={session} />
-        ) : null}
+        )}
       </main>
       <div className="fixed bottom-0 w-full">
         <Player session={session} />

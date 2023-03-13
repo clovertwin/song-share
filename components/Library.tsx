@@ -195,7 +195,7 @@ export default function Library({ session }: Props) {
           playlists.map((playlist, i) => (
             <button
               key={playlist.id}
-              className="flex items-center w-full py-3 rounded-lg space-x-5 px-3 overflow-hidden md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
+              className="flex items-center w-full py-3 rounded-lg space-x-5 px-3 md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
               onClick={() => handlePlaylistSelect(playlist)}
             >
               <p className="text-gray-500">

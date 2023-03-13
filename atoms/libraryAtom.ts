@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const libraryComponentOpenState = atom({
   key: "libraryComponentOpenState",
-  default: true,
+  default: false,
 });
 
 export const likedSongsOpenState = atom({
