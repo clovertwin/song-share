@@ -76,39 +76,61 @@ export default function HomeComponent({ session }: Props) {
           <ChevronDownIcon className="h-5, w-5" />
         </div>
       </header>
-      <h1 className="font-bold text-4xl pt-20 pb-3">Home</h1>
+      <h1 className="font-bold text-4xl pt-20 pl-3 pb-3 text-spotifyPrimary sm:m-auto">
+        Song-Share
+      </h1>
       {artistOpen ? (
         <ArtistLayout session={session} />
       ) : (
         <div>
-          <h2 className="pt-5 text-lg font-bold">Top Artists:</h2>
-          <ul className="pt-5 hover:cursor-pointer">
-            {topArtists
-              ? topArtists.map((artist, i) => (
-                  <li
-                    key={i}
-                    className="text-gray-500 hover:text-white"
-                    onClick={() => handleArtistSelect(artist.id)}
-                  >
-                    {artist.name}
-                  </li>
-                ))
-              : null}
-          </ul>
-          <h2 className="pt-5 text-lg font-bold">Top Tracks:</h2>
-          <ul className="pt-5 hover:cursor-pointer">
-            {topTracks
-              ? topTracks.map((track, i) => (
-                  <li
-                    key={i}
-                    onClick={() => handleTrackSelect(track)}
-                    className="text-gray-500 truncate w-3/4 hover:text-white"
-                  >
-                    {track.name}
-                  </li>
-                ))
-              : null}
-          </ul>
+          <h2 className="pt-5 pb-3 pl-3 text-xl font-bold">Top Artists:</h2>
+
+          {topArtists
+            ? topArtists.map((artist, i) => (
+                <div
+                  key={i}
+                  className="text-gray-500 flex items-center py-3 pl-3 space-x-5 rounded-lg hover:text-white hover:cursor-pointer hover:bg-gray-900"
+                  onClick={() => handleArtistSelect(artist.id)}
+                >
+                  <p>{i + 1 < 10 ? "0" + (i + 1) : i + 1}</p>
+                  <Image
+                    alt="artist image"
+                    src={artist.images[0].url}
+                    width={artist.images[0].width}
+                    height={artist.images[0].height}
+                    className="h-12 w-12"
+                  />
+                  <h3 className="font-bold text-white">{artist.name}</h3>
+                </div>
+              ))
+            : null}
+
+          <h2 className="pt-5 pb-3 pl-3 text-xl font-bold">Top Tracks:</h2>
+
+          {topTracks
+            ? topTracks.map((track, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleTrackSelect(track)}
+                  className="text-gray-500 flex items-center space-x-5 py-3 pl-3 rounded-lg hover:text-white hover:cursor-pointer hover:bg-gray-900"
+                >
+                  <p>{i + 1 < 10 ? "0" + (i + 1) : i + 1}</p>
+                  <Image
+                    alt="album cover art"
+                    src={track.album.images[0].url}
+                    width={640}
+                    height={640}
+                    className="h-12 w-12"
+                  />
+                  <div>
+                    <h3 className="font-bold text-white">
+                      {track.artists[0].name}
+                    </h3>
+                    <p className="truncate w-52">{track.name}</p>
+                  </div>
+                </div>
+              ))
+            : null}
         </div>
       )}
     </div>

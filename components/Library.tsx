@@ -29,6 +29,10 @@ export default function Library({ session }: Props) {
   const [likedSongs, setLikedSongs] = useState<SpotifyApi.SavedTrackObject[]>(
     []
   );
+  const [nextTrack, setNextTrack] = useState("");
+  const [nextPlaylist, setNextPlaylist] = useState("");
+  const [loadMoreTracks, setLoadMoreTracks] = useState(false);
+  const [loadMorePlaylists, setLoadMorePlaylists] = useState(false);
   const [likedOpen, setLikedOpen] = useRecoilState(likedSongsOpenState);
   const [playlistOpen, setPlaylistOpen] = useRecoilState(playlistOpenState);
   const setPlaylistComponentOpen = useSetRecoilState(
@@ -45,12 +49,51 @@ export default function Library({ session }: Props) {
     if (spotifyApi.getAccessToken()) {
       spotifyApi.getUserPlaylists().then((data) => {
         setPlaylists(data.body.items);
+        if (data.body.next) {
+          setNextPlaylist(data.body.next);
+          setLoadMorePlaylists(true);
+        }
       });
       spotifyApi.getMySavedTracks().then((data) => {
         setLikedSongs(data.body.items);
+        if (data.body.next) {
+          setNextTrack(data.body.next);
+          setLoadMoreTracks(true);
+        }
       });
     }
   }, [spotifyApi, session]);
+
+  const fetchMore = (next: string, type: "playlist" | "track") => {
+    fetch(next, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${spotifyApi.getAccessToken()}`,
+        Host: "api.spotify.com",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (type === "playlist") {
+          setPlaylists((prev) => [...prev, ...data.items]);
+          if (data.next) {
+            setNextPlaylist(data.next);
+            setLoadMorePlaylists(true);
+          } else {
+            setLoadMorePlaylists(false);
+          }
+        }
+        if (type === "track") {
+          setLikedSongs((prev) => [...prev, ...data.items]);
+          if (data.next) {
+            setNextTrack(data.next);
+            setLoadMoreTracks(true);
+          } else {
+            setLoadMoreTracks(false);
+          }
+        }
+      });
+  };
 
   const handlePlaylistSelect = (
     playlist: SpotifyApi.PlaylistObjectSimplified
@@ -79,7 +122,7 @@ export default function Library({ session }: Props) {
           width={300}
           className="h-10 w-10 rounded-full sm:h-14 sm:w-14"
         />
-        <h1 className="text-4xl font-bold sm:text-4xl md:text-5xl">
+        <h1 className="text-4xl font-bold text-spotifyPrimary sm:text-4xl md:text-5xl">
           Your Library
         </h1>
       </div>
@@ -107,58 +150,84 @@ export default function Library({ session }: Props) {
           Liked Songs
         </button>
       </div>
-      {likedOpen &&
-        likedSongs.map((song, i) => (
-          <button
-            className="flex w-full py-3 px-3 items-center space-x-5 rounded-lg md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
-            key={song.track.id}
-            onClick={() => playSong(song)}
-          >
-            <p className="text-gray-500">
-              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
-            </p>
-            <Image
-              alt={`${song.track.album} cover art`}
-              src={song.track.album.images[0].url}
-              height={640}
-              width={640}
-              className="h-12 w-12"
-            />
-            <div className="overflow-hidden text-left">
-              <h3 className="font-bold w-full truncate md:text-lg">
-                {song.track.artists[0].name}
-              </h3>
-              <p className="text-gray-500 w-full truncate">{song.track.name}</p>
-            </div>
-          </button>
-        ))}
-      {playlistOpen &&
-        playlists &&
-        playlists.map((playlist, i) => (
-          <button
-            key={playlist.id}
-            className="flex items-center w-full py-3 rounded-lg space-x-5 px-3 overflow-hidden md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
-            onClick={() => handlePlaylistSelect(playlist)}
-          >
-            <p className="text-gray-500">
-              {i + 1 < 10 ? "0" + (i + 1) : i + 1}
-            </p>
-            {playlist.images.length > 0 ? (
+      <div>
+        {likedOpen &&
+          likedSongs.map((song, i) => (
+            <button
+              className="flex w-full py-3 px-3 items-center space-x-5 rounded-lg md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
+              key={song.track.id}
+              onClick={() => playSong(song)}
+            >
+              <p className="text-gray-500">
+                {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+              </p>
               <Image
-                alt={`${playlist.name} cover image`}
-                src={playlist.images[0]?.url}
+                alt={`${song.track.album} cover art`}
+                src={song.track.album.images[0].url}
                 height={640}
                 width={640}
-                className="h-12 w-12 md:h-14 md:w-14"
+                className="h-12 w-12"
               />
-            ) : (
-              <div className="flex justify-center items-center h-12 w-12 text-xs text-center bg-gray-900 md:h-14 md:w-14">
-                No Image
+              <div className="overflow-hidden text-left">
+                <h3 className="font-bold w-full truncate md:text-lg">
+                  {song.track.artists[0].name}
+                </h3>
+                <p className="text-gray-500 w-full truncate">
+                  {song.track.name}
+                </p>
               </div>
-            )}
-            <h3 className="font-bold truncate">{playlist.name}</h3>
-          </button>
-        ))}
+            </button>
+          ))}
+        {likedOpen && loadMoreTracks ? (
+          <div className="flex justify-center pt-3">
+            <button
+              onClick={() => fetchMore(nextTrack, "track")}
+              className="rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
+            >
+              Load more...
+            </button>
+          </div>
+        ) : null}
+      </div>
+      <div>
+        {playlistOpen &&
+          playlists &&
+          playlists.map((playlist, i) => (
+            <button
+              key={playlist.id}
+              className="flex items-center w-full py-3 rounded-lg space-x-5 px-3 overflow-hidden md:space-x-10 hover:bg-gray-900 hover:cursor-pointer"
+              onClick={() => handlePlaylistSelect(playlist)}
+            >
+              <p className="text-gray-500">
+                {i + 1 < 10 ? "0" + (i + 1) : i + 1}
+              </p>
+              {playlist.images.length > 0 ? (
+                <Image
+                  alt={`${playlist.name} cover image`}
+                  src={playlist.images[0]?.url}
+                  height={640}
+                  width={640}
+                  className="h-12 w-12 md:h-14 md:w-14"
+                />
+              ) : (
+                <div className="flex justify-center items-center h-12 w-12 text-xs text-center bg-gray-900 md:h-14 md:w-14">
+                  No Image
+                </div>
+              )}
+              <h3 className="font-bold truncate">{playlist.name}</h3>
+            </button>
+          ))}
+        {playlistOpen && loadMorePlaylists ? (
+          <div className="flex justify-center">
+            <button
+              onClick={() => fetchMore(nextPlaylist, "playlist")}
+              className="rounded-md px-5 py-1 h-10 border-2 border-gray-800 text-gray-500 active:bg-gray-800 hover:border-gray-700 hover:text-white focus:text-white focus:outline-none focus:border-green-500 focus:ring-green-500"
+            >
+              Load more...
+            </button>
+          </div>
+        ) : null}
+      </div>
     </section>
   );
 }
