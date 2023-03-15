@@ -122,7 +122,7 @@ export default function Library({ session }: Props) {
           width={300}
           className="h-10 w-10 rounded-full sm:h-14 sm:w-14"
         />
-        <h1 className="text-4xl font-bold text-spotifyPrimary sm:text-4xl md:text-5xl">
+        <h1 className="text-4xl font-bold text-spotifyPrimary md:text-5xl">
           Your Library
         </h1>
       </div>
